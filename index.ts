@@ -7,8 +7,8 @@ const db = new Database('./data/kjv.db')
 const verses = db.prepare(`
   SELECT chapter, verse, text 
   FROM KJV_verses 
-  WHERE book_id = 1 
-  ORDER BY chapter, verse
+  WHERE book_id = 1 AND chapter = 1
+  ORDER BY verse
 `).all()
 
 // set up applications
@@ -23,9 +23,6 @@ app.set('view engine', 'ejs')
 
 // routes
 app.get('/', (req, res) => {
-	const verses = db.prepare(`
-    SELECT chapter, verse, text FROM KJV_verses WHERE book_id = 1 ORDER BY chapter, verse
-  `).all()
 	res.render('index', { verses })
 })
 
