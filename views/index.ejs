@@ -1,1 +1,7 @@
-<h1>hello</h1>
+<% verses.forEach(v=> { %>
+	<p><sup>
+			<%= v.verse %>
+		</sup>
+		<%= v.text %>
+	</p>
+	<% }) %>
