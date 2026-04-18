@@ -1,88 +1,13 @@
-// libs
+/**
+ * server.js
+ * by john trinh
+ * 
+ * main server file
+ */
+
+// -----[IMPORT LIBRARIES / MODULES]-----
 import Express from 'express'
-import Database from 'better-sqlite3'
-
-const db = new Database('./data/kjv.db')
-
-
-const verseQuery = db.prepare(`
-    SELECT chapter, verse, text
-    FROM KJV_verses
-    WHERE book_id = ? AND chapter = ?
-    ORDER BY verse
-`)
-const getVerses = (bookID, chapterID) => {
-	return verseQuery.all(bookID, chapterID)
-}
-
-const firstVerseQuery = db.prepare(`
-  SELECT MIN(id) AS id
-  FROM KJV_verses
-  WHERE book_id = ? AND chapter = ?
-`)
-const lastVerseQuery = db.prepare(`
-  SELECT MAX(id) AS id
-  FROM KJV_verses
-  WHERE book_id = ? AND chapter = ?
-`)
-const chapterQuery = db.prepare(`
-  SELECT book_id, chapter
-  FROM KJV_verses
-  WHERE id = ?
-`)
-const getPrevChapter = (bookID, chapterID) => {
-	const firstVerse = firstVerseQuery.get(bookID, chapterID)
-	if (firstVerse.id === 1) return null
-	const prevChapter = chapterQuery.get(firstVerse.id - 1)
-	return prevChapter
-}
-const getNextChapter = (bookID, chapterID) => {
-	const lastVerse = lastVerseQuery.get(bookID, chapterID)
-	if (lastVerse.id === 31102) return null
-	const nextChapter = chapterQuery.get(lastVerse.id + 1)
-	return nextChapter
-}
-
-const bookNameQuery = db.prepare(`
-  SELECT name
-  FROM KJV_books
-  WHERE id = ?
-`)
-const getBookName = (bookID) => {
-	const row = bookNameQuery.get(bookID)
-	return row.name
-}
-
-const chapterExistsQuery = db.prepare(`
-  SELECT EXISTS(
-    SELECT 1
-    FROM KJV_verses
-    WHERE book_id = ? AND chapter = ?
-  ) AS chapter_exists
-`)
-const chapterExists = (bookID, chapterID) => {
-	const row = chapterExistsQuery.get(bookID, chapterID)
-	return row.chapter_exists === 1
-}
-
-const allBooksQuery = db.prepare(`
-    SELECT id, name
-    FROM KJV_books
-    ORDER BY id
-`)
-const getAllBooks = () => {
-	return allBooksQuery.all()
-}
-
-const chaptersInBookQuery = db.prepare(`
-  SELECT MAX(chapter) AS chapter
-  FROM KJV_verses
-  WHERE book_id = ?
-`)
-const getNumChapters = (bookID) => {
-	const row = chaptersInBookQuery.get(bookID)
-	return row.chapter
-}
+import * as bible from './db.js'
 
 // set up applications
 const app = Express() // express app normal stuff
@@ -93,26 +18,25 @@ app.use(Express.json()) // needed for pushing json data in a post request https:
 app.use(Express.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
 
+// -----[ROUTES]-----
 
-// routes
+// default route redirects to genesis 1:1
 app.get('/', (req, res) => {
 	res.redirect('/1/1')
 })
 
-// route with params
+// main route for getting chapters
 // https://expressjs.com/en/guide/routing.html#route-parameters
 app.get('/:book/:chapter', (req, res) => {
 	let bookID = parseInt(req.params.book)
 	let chapterID = parseInt(req.params.chapter)
-	if (!chapterExists(bookID, chapterID)) return res.redirect('/1/1')
-	const verses = getVerses(bookID, chapterID)
-	const bookName = getBookName(bookID)
-	const prev = getPrevChapter(bookID, chapterID)
-	const next = getNextChapter(bookID, chapterID)
-	const allBooks = getAllBooks()
-	const numChapters = getNumChapters(bookID)
-	console.log(allBooks)
-
+	if (!bible.chapterExists(bookID, chapterID)) return res.redirect('/1/1')
+	const verses = bible.getVerses(bookID, chapterID)
+	const bookName = bible.getBookName(bookID)
+	const prev = bible.getPrevChapter(bookID, chapterID)
+	const next = bible.getNextChapter(bookID, chapterID)
+	const allBooks = bible.getAllBooks()
+	const numChapters = bible.getNumChapters(bookID)
 	res.render('index', { verses, bookName, bookID, chapterID, prev, next, allBooks, numChapters })
 })
 
