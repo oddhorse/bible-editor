@@ -64,16 +64,24 @@
 	</main>
 	<!-- forgot about entities lol https://stackoverflow.com/questions/14659240/angle-bracket-without-triggering-html-code -->
 	<nav id="wing-nav">
-		<% if (prev) { %>
-			<a id="wing-nav-prev" href="/<%= prev.book_id %>/<%= prev.chapter %>">
-				<p>&lt;</p>
-			</a>
-			<% } %>
-				<% if (next) { %>
-					<a id="wing-nav-next" href="/<%= next.book_id %>/<%= next.chapter %>">
-						<p>&gt;</p>
-					</a>
-					<% } %>
+		<a id="wing-nav-prev" <% if (prev) { %>
+			href="/<%= prev.book_id %>/<%= prev.chapter %>"
+					<% } else { %>
+						href="#"
+						class="disabled"
+						<% } %>
+							>
+							<p>&lt;</p>
+		</a>
+		<a id="wing-nav-next" <% if (next) { %>
+			href="/<%= next.book_id %>/<%= next.chapter %>"
+					<% } else { %>
+						href="#"
+						class="disabled"
+						<% } %>
+							>
+							<p>&gt;</p>
+		</a>
 	</nav>
 </body>
 
