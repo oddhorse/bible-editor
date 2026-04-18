@@ -19,6 +19,7 @@ main {
 }
 
 #wing-nav {
+	pointer-events: none;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -28,13 +29,18 @@ main {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+
+	--outer-margin: 30px;
+	--inner-margin: 12.5dvw;
 }
 
 #wing-nav a {
+	pointer-events: all;
 	text-decoration: none;
 	font-size: 50px;
 	color: black;
 	opacity: 0.55;
+	transition: all 60ms;
 }
 
 #wing-nav a:hover {
@@ -42,13 +48,23 @@ main {
 	opacity: 1;
 }
 
+#wing-nav-next:hover {
+	background: linear-gradient(270deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
 #wing-nav-next p {
-	margin: 50dvh 20px 50dvh 60px;
+	margin: 50dvh var(--outer-margin) 50dvh var(--inner-margin);
+}
+
+#wing-nav-prev:hover {
+	background: linear-gradient(90deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0) 100%);
 }
 
 #wing-nav-prev p {
-	margin: 50dvh 60px 50dvh 20px;
+	margin: 50dvh var(--inner-margin) 50dvh var(--outer-margin);
 }
+
+
 
 /* #wing-nav-prev {
 	left: 0;
