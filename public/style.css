@@ -1,4 +1,4 @@
-body {
+main {
 	width: 400px;
 	margin: auto;
 	font-size: 20px;
@@ -17,3 +17,43 @@ body {
 .chapter-text .verse-text:hover {
 	/* color: #ff7bb6 */
 }
+
+#wing-nav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 10;
+	height: 100dvh;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#wing-nav a {
+	text-decoration: none;
+	font-size: 50px;
+	color: black;
+	opacity: 0.55;
+}
+
+#wing-nav a:hover {
+	scale: 105%;
+	opacity: 1;
+}
+
+#wing-nav-next p {
+	margin: 50dvh 20px 50dvh 60px;
+}
+
+#wing-nav-prev p {
+	margin: 50dvh 60px 50dvh 20px;
+}
+
+/* #wing-nav-prev {
+	left: 0;
+}
+
+#wing-nav-next {
+	right: 0;
+} */

@@ -9,7 +9,7 @@ import Database from "better-sqlite3"
 const db = new Database('./data/kjv.db')
 
 const verseQuery = db.prepare(`
-    SELECT chapter, verse, text
+    SELECT id, chapter, verse, text
     FROM KJV_verses
     WHERE book_id = ? AND chapter = ?
     ORDER BY verse

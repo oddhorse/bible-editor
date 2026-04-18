@@ -15,49 +15,64 @@
 </head>
 
 <body data-book-id="<%= bookID %>" data-chapter-id="<%= chapterID %>">
-	<h2>
-		<%= bookName %>
-			<%= chapterID %>
-	</h2>
-	<nav>
-		<select name="book" id="book-select">
-			<% allBooks.forEach(book=> { %>
-				<option value="<%= book.id %>" <% if (book.id===bookID) { %>
-					selected
+	<main>
+		<h2>
+			<%= bookName %>
+				<%= chapterID %>
+		</h2>
+		<nav>
+			<select name="book" id="book-select">
+				<% allBooks.forEach(book=> { %>
+					<option value="<%= book.id %>" <% if (book.id===bookID) { %>
+						selected
+						<% } %>
+							>
+							<%= book.name %>
+					</option>
+					<% }) %>
+			</select>
+			<select name="chapter" id="chapter-select">
+				<% for( let i=1; i <=numChapters; i++ ) { %>
+					<option value="<%= i %>" <% if (i===chapterID) { %>
+						selected
+						<% } %>
+							>
+							<%= i %>
+					</option>
 					<% } %>
-						>
-						<%= book.name %>
-				</option>
-				<% }) %>
-		</select>
-		<select name="chapter" id="chapter-select">
-			<% for( let i=1; i <=numChapters; i++ ) { %>
-				<option value="<%= i %>" <% if (i===chapterID) { %>
-					selected
-					<% } %>
-						>
-						<%= i %>
-				</option>
-				<% } %>
-		</select>
-	</nav>
-	<p class="chapter-text">
-		<% verses.forEach(v=> { %>
-			<sup class="verse-num">
-				<%= v.verse %>
-			</sup>
-			<span class="verse-text" data-verse-id="<%= v.id %>">
-				<%= v.text %>
-			</span>
+			</select>
+		</nav>
+		<p class="chapter-text">
+			<% verses.forEach(v=> { %>
+				<sup class="verse-num">
+					<%= v.verse %>
+				</sup>
+				<span class="verse-text" data-verse-id="<%= v.id %>">
+					<%= v.text %>
+				</span>
 
-			<% }) %>
-	</p>
-	<nav>
+				<% }) %>
+		</p>
+		<nav>
+			<% if (prev) { %>
+				<a href="/<%= prev.book_id %>/<%= prev.chapter %>">prev chapter</a>
+				<% } %>
+					<% if (next) { %>
+						<a href="/<%= next.book_id %>/<%= next.chapter %>">next chapter</a>
+						<% } %>
+		</nav>
+	</main>
+	<!-- forgot about entities lol https://stackoverflow.com/questions/14659240/angle-bracket-without-triggering-html-code -->
+	<nav id="wing-nav">
 		<% if (prev) { %>
-			<a href="/<%= prev.book_id %>/<%= prev.chapter %>">prev chapter</a>
+			<a id="wing-nav-prev" href="/<%= prev.book_id %>/<%= prev.chapter %>">
+				<p>&lt;</p>
+			</a>
 			<% } %>
 				<% if (next) { %>
-					<a href="/<%= next.book_id %>/<%= next.chapter %>">next chapter</a>
+					<a id="wing-nav-next" href="/<%= next.book_id %>/<%= next.chapter %>">
+						<p>&gt;</p>
+					</a>
 					<% } %>
 	</nav>
 </body>
