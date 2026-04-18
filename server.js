@@ -65,6 +65,25 @@ const chapterExists = (bookID, chapterID) => {
 	return row.chapter_exists === 1
 }
 
+const allBooksQuery = db.prepare(`
+    SELECT id, name
+    FROM KJV_books
+    ORDER BY id
+`)
+const getAllBooks = () => {
+	return allBooksQuery.all()
+}
+
+const chaptersInBookQuery = db.prepare(`
+  SELECT MAX(chapter) AS chapter
+  FROM KJV_verses
+  WHERE book_id = ?
+`)
+const getNumChapters = (bookID) => {
+	const row = chaptersInBookQuery.get(bookID)
+	return row.chapter
+}
+
 // set up applications
 const app = Express() // express app normal stuff
 
@@ -90,7 +109,11 @@ app.get('/:book/:chapter', (req, res) => {
 	const bookName = getBookName(bookID)
 	const prev = getPrevChapter(bookID, chapterID)
 	const next = getNextChapter(bookID, chapterID)
-	res.render('index', { verses, bookName, bookID, chapterID, prev, next })
+	const allBooks = getAllBooks()
+	const numChapters = getNumChapters(bookID)
+	console.log(allBooks)
+
+	res.render('index', { verses, bookName, bookID, chapterID, prev, next, allBooks, numChapters })
 })
 
 // listen on port

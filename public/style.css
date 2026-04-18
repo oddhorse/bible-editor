@@ -4,3 +4,16 @@ body {
 	font-size: 20px;
 	line-height: 1.8;
 }
+
+.chapter-text .verse-num {
+	opacity: 0.55;
+	font-size: 15px;
+}
+
+.chapter-text .verse-text {
+	transition: color 80ms;
+}
+
+.chapter-text .verse-text:hover {
+	/* color: #ff7bb6 */
+}

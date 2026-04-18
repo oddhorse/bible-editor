@@ -1,3 +1,6 @@
+<!-- index.ejs
+ by john trinh
+ main bible view -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,31 +11,55 @@
 			<%= chapterID %>
 	</title>
 	<link rel="stylesheet" href="/style.css">
+	<script src="/main.js"></script>
 </head>
 
-<body>
+<body data-book-id="<%= bookID %>" data-chapter-id="<%= chapterID %>">
+	<h2>
+		<%= bookName %>
+			<%= chapterID %>
+	</h2>
+	<nav>
+		<select name="book" id="book-select">
+			<% allBooks.forEach(book=> { %>
+				<option value="<%= book.id %>" <% if (book.id===bookID) { %>
+					selected
+					<% } %>
+						>
+						<%= book.name %>
+				</option>
+				<% }) %>
+		</select>
+		<select name="chapter" id="chapter-select">
+			<% for( let i=1; i <=numChapters; i++ ) { %>
+				<option value="<%= i %>" <% if (i===chapterID) { %>
+					selected
+					<% } %>
+						>
+						<%= i %>
+				</option>
+				<% } %>
+		</select>
+	</nav>
+	<p class="chapter-text">
+		<% verses.forEach(v=> { %>
+			<sup class="verse-num">
+				<%= v.verse %>
+			</sup>
+			<span class="verse-text" data-verse-id="<%= v.id %>">
+				<%= v.text %>
+			</span>
 
+			<% }) %>
+	</p>
+	<nav>
+		<% if (prev) { %>
+			<a href="/<%= prev.book_id %>/<%= prev.chapter %>">prev chapter</a>
+			<% } %>
+				<% if (next) { %>
+					<a href="/<%= next.book_id %>/<%= next.chapter %>">next chapter</a>
+					<% } %>
+	</nav>
 </body>
 
 </html>
-<h2>
-	<%= bookName %>
-		<%= chapterID %>
-</h2>
-<p>
-	<% verses.forEach(v=> { %>
-		<sup>
-			<%= v.verse %>
-		</sup>
-		<%= v.text %>
-
-			<% }) %>
-</p>
-<nav>
-	<% if (prev) { %>
-		<a href="/<%= prev.book_id %>/<%= prev.chapter %>">prev chapter</a>
-		<% } %>
-			<% if (next) { %>
-				<a href="/<%= next.book_id %>/<%= next.chapter %>">next chapter</a>
-				<% } %>
-</nav>
