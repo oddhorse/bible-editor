@@ -44,13 +44,8 @@
 		</nav>
 		<p class="chapter-text">
 			<% verses.forEach(v=> { %>
-				<sup class="verse-num">
-					<%= v.verse %>
-				</sup>
-				<span class="verse-text" data-verse-id="<%= v.id %>">
-					<%= v.text %>
-				</span>
-
+				<sup class="verse-num"><%= v.verse %></sup>
+				<span class="verse-text" data-verse-id="<%= v.id %>"><%= v.text %></span>
 				<% }) %>
 		</p>
 		<nav>

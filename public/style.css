@@ -18,6 +18,29 @@ main {
 	/* color: #ff7bb6 */
 }
 
+.verse-text:focus-visible {
+	outline: 2px auto black;
+	outline-style: ridge;
+	border-radius: 4px;
+	outline-offset: 3px;
+}
+
+.verse-text,
+.verse-num {
+	cursor: crosshair;
+}
+
+/* targets uhhh all verse number els whose next sibling 
+is a verse text element that is the focused element on 
+the page and has contenteditable html attr set to true */
+.verse-num:has(+ .verse-text[contenteditable="true"]:focus-visible) {
+	/* pointer-events: none; */
+}
+
+.verse-text[contenteditable="true"]:focus-visible {
+	cursor: text;
+}
+
 #wing-nav {
 	pointer-events: none;
 	position: fixed;
@@ -31,7 +54,7 @@ main {
 	align-items: center;
 
 	--outer-margin: 30px;
-	--inner-margin: 12.5dvw;
+	--inner-margin: 8dvw;
 }
 
 #wing-nav a {

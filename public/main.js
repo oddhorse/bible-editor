@@ -87,5 +87,27 @@ window.addEventListener('load', () => {
 	chaptSel.addEventListener('change', (ev) => {
 		window.location.href = `/${currentBookID}/${ev.target.value}`
 	})
+
+
+	const verseEls = document.getElementsByClassName("verse-text")
+	for (const verseEl of verseEls) {
+		const lineNumEl = verseEl.previousElementSibling
+
+		const verseElIsFocused = (document.activeElement === verseEl)
+
+		lineNumEl.addEventListener("mousedown", (ev) => {
+			// https://stackoverflow.com/questions/12154954/how-to-make-element-not-lose-focus-when-button-is-pressed
+			ev.preventDefault()
+			verseEl.contentEditable = true
+			verseEl.focus()
+		})
+		verseEl.addEventListener("click", () => {
+			verseEl.contentEditable = true
+			verseEl.focus()
+		})
+		verseEl.addEventListener("blur", () => {
+			verseEl.contentEditable = false
+		})
+	}
 })
 
