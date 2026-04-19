@@ -101,7 +101,7 @@ window.addEventListener('load', () => {
 			verseEl.contentEditable = true
 			verseEl.focus()
 		})
-		verseEl.addEventListener("click", () => {
+		verseEl.addEventListener("mousedown", () => {
 			verseEl.contentEditable = true
 			verseEl.focus()
 		})
