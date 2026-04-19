@@ -34,22 +34,18 @@
 		</nav>
 		<p class="chapter-text">
 			<% verses.forEach(v=> { %>
-				<sup class="verse-num">
-					<%= v.verse %>
-				</sup>
-				<span class="verse-text" data-verse-id="<%= v.id %>">
-					<%= v.text %>
-				</span>
+				<sup class="verse-num"><%= v.verse %></sup>
+				<span class="verse-text" data-verse-id="<%= v.id %>"><%= v.text %></span>
 
-				<% }) %>
+			<% }) %>
 		</p>
 		<nav>
 			<% if (prev) { %>
 				<a href="/<%= prev.book_id %>/<%= prev.chapter %>">prev chapter</a>
-				<% } %>
-					<% if (next) { %>
-						<a href="/<%= next.book_id %>/<%= next.chapter %>">next chapter</a>
-						<% } %>
+			<% } %>
+			<% if (next) { %>
+				<a href="/<%= next.book_id %>/<%= next.chapter %>">next chapter</a>
+			<% } %>
 		</nav>
 	</main>
 	<!-- forgot about entities lol https://stackoverflow.com/questions/14659240/angle-bracket-without-triggering-html-code -->
