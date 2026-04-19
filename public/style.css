@@ -70,13 +70,3 @@ main {
 #wing-nav-prev p {
 	margin: 50dvh var(--inner-margin) 50dvh var(--outer-margin);
 }
-
-
-
-/* #wing-nav-prev {
-	left: 0;
-}
-
-#wing-nav-next {
-	right: 0;
-} */

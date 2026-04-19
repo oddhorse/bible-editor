@@ -7,8 +7,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>The Bible - <%= bookName %>
-			<%= chapterID %>
+	<title>The Bible - <%= bookName %> <%= chapterID %>
 	</title>
 	<link rel="stylesheet" href="/style.css">
 	<script src="/main.js"></script>
@@ -16,30 +15,21 @@
 
 <body data-book-id="<%= bookID %>" data-chapter-id="<%= chapterID %>">
 	<main>
-		<h2>
-			<%= bookName %>
-				<%= chapterID %>
-		</h2>
+		<h2><%= bookName %> <%= chapterID %></h2>
 		<nav>
 			<select name="book" id="book-select">
 				<% allBooks.forEach(book=> { %>
-					<option value="<%= book.id %>" <% if (book.id===bookID) { %>
-						selected
-						<% } %>
-							>
-							<%= book.name %>
+					<option value="<%= book.id %>" <% if (book.id===bookID) { %>selected<% } %>>
+						<%= book.name %>
 					</option>
-					<% }) %>
+				<% }) %>
 			</select>
 			<select name="chapter" id="chapter-select">
 				<% for( let i=1; i <=numChapters; i++ ) { %>
-					<option value="<%= i %>" <% if (i===chapterID) { %>
-						selected
-						<% } %>
-							>
-							<%= i %>
+					<option value="<%= i %>" <% if (i===chapterID) { %>selected<% } %>>
+						<%= i %>
 					</option>
-					<% } %>
+				<% } %>
 			</select>
 		</nav>
 		<p class="chapter-text">
@@ -64,23 +54,25 @@
 	</main>
 	<!-- forgot about entities lol https://stackoverflow.com/questions/14659240/angle-bracket-without-triggering-html-code -->
 	<nav id="wing-nav">
-		<a id="wing-nav-prev" <% if (prev) { %>
-			href="/<%= prev.book_id %>/<%= prev.chapter %>"
-					<% } else { %>
-						href="#"
-						class="disabled"
-						<% } %>
-							>
-							<p>&lt;</p>
+		<a id="wing-nav-prev"
+			<% if (prev) { %>
+				href="/<%= prev.book_id %>/<%= prev.chapter %>"
+			<% } else { %>
+				href="#"
+				class="disabled"
+			<% } %>
+		>
+			<p>&lt;</p>
 		</a>
-		<a id="wing-nav-next" <% if (next) { %>
-			href="/<%= next.book_id %>/<%= next.chapter %>"
-					<% } else { %>
-						href="#"
-						class="disabled"
-						<% } %>
-							>
-							<p>&gt;</p>
+		<a id="wing-nav-next"
+			<% if (next) { %>
+				href="/<%= next.book_id %>/<%= next.chapter %>"
+			<% } else { %>
+				href="#"
+				class="disabled"
+			<% } %>
+		>
+			<p>&gt;</p>
 		</a>
 	</nav>
 </body>
