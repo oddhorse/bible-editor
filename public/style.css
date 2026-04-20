@@ -69,6 +69,7 @@ main {
 
 	--outer-margin: 30px;
 	--inner-margin: 8dvw;
+	--height-margin: 50dvh;
 }
 
 #wing-nav a {
@@ -97,7 +98,7 @@ main {
 }
 
 #wing-nav-next p {
-	margin: 50dvh var(--outer-margin) 50dvh var(--inner-margin);
+	margin: var(--height-margin) var(--outer-margin) var(--height-margin) var(--inner-margin);
 }
 
 #wing-nav-prev:hover {
@@ -105,5 +106,44 @@ main {
 }
 
 #wing-nav-prev p {
-	margin: 50dvh var(--inner-margin) 50dvh var(--outer-margin);
+	margin: var(--height-margin) var(--inner-margin) var(--height-margin) var(--outer-margin);
+}
+
+@media (max-width: 600px) {
+
+	/* tighten layout on small screens */
+	main {
+		width: min(100%, 36ch);
+		padding-inline: 16px;
+		font-size: 18px;
+		line-height: 1.7;
+	}
+
+	/* reduce wing nav footprint */
+	#wing-nav {
+		--outer-margin: 14px;
+		--inner-margin: 4dvw;
+		--height-margin: 30px;
+		top: unset;
+		bottom: 0;
+		height: fit-content;
+	}
+
+	#wing-nav a {
+		font-size: 36px;
+		height: 50px;
+		width: 50px;
+	}
+
+	#wing-nav-prev:hover,
+	#wing-nav-next:hover {
+		background: unset;
+	}
+
+	#wing-nav a p {
+		margin: 0;
+		height: 50px;
+		width: 50px;
+		text-align: center;
+	}
 }
