@@ -111,8 +111,13 @@ const disableVerseEdit = async (verseEl) => {
 	const response = await submitEdit(verseEl.dataset.verseId, verseEl.innerText)
 	const okay = response.ok
 	const text = await response.text()
-	if (response.ok) verseEl.dataset.isEdited = "1"
+	if (response.ok) verseEl.dataset.isEdited = "true"
 	console.log(text)
+}
+
+const isCurrentlyEditing = () => {
+	const focusedEl = document.activeElement
+	return (focusedEl.contentEditable && focusedEl.classList.contains("verse-text"))
 }
 
 
@@ -131,13 +136,6 @@ window.addEventListener('load', () => {
 		window.location.href = `/${currentBookID}/${ev.target.value}`
 	})
 
-
-
-	const isCurrentlyEditing = () => {
-		const focusedEl = document.activeElement
-		return (focusedEl.contentEditable && focusedEl.classList.contains("verse-text"))
-	}
-
 	// any time an element is clicked, this runs
 	document.addEventListener("mousedown", (ev) => {
 		const textEl = ev.target.closest(".verse-text")
@@ -150,6 +148,16 @@ window.addEventListener('load', () => {
 			ev.preventDefault() // supresses defocusing of currently focused element
 			enableVerseEdit(numEl.nextElementSibling)
 		}
+	})
+
+	// ends edit on enter
+	document.addEventListener("keydown", (ev) => {
+		if (ev.key === "Enter" && isCurrentlyEditing()) {
+			const verseEl = document.activeElement
+			verseEl.blur()
+			disableVerseEdit(verseEl)
+		}
+		console.log(`key pressed! ${ev.key}`)
 	})
 
 	// every time any element is unfocused, this runs

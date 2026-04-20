@@ -37,12 +37,12 @@ app.get('/:book/:chapter', (req, res) => {
 	const next = bible.getNextChapter(bookID, chapterID)
 	const allBooks = bible.getAllBooks()
 	const numChapters = bible.getNumChapters(bookID)
-	res.render('index', { verses, bookName, bookID, chapterID, prev, next, allBooks, numChapters })
+	const chapterEditStats = bible.getEditCoverage(bookID, chapterID)
+	const totalEditStats = bible.getEditCoverage()
+	res.render('index', { verses, bookName, bookID, chapterID, prev, next, allBooks, numChapters, chapterEditStats })
 })
 
 app.get('/edit', (req, res) => {
-	console.log("new shit coming in:")
-	console.log(req.query)
 	bible.saveEdit(req.query.verseID, req.query.newVerse, req.ip)
 	res.send("success!")
 })

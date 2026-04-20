@@ -6,13 +6,17 @@ main {
 	z-index: 10;
 }
 
-.chapter-text .verse-num {
+.verse-num {
 	opacity: 0.55;
 	font-size: 15px;
 }
 
-.chapter-text .verse-text {
-	transition: color 80ms;
+.verse-text {
+	transition: color 100ms;
+}
+
+.verse-text[data-is-edited="true"] {
+	color: rgb(189, 0, 170);
 }
 
 .chapter-text .verse-text:hover {
@@ -27,6 +31,8 @@ main {
 
 	animation: flash-outline-color 700ms ease-out infinite alternate;
 }
+
+
 
 @keyframes flash-outline-color {
 

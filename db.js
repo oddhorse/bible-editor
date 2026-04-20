@@ -92,7 +92,29 @@ const insertEdit = db.prepare(`
     ?, ?, CURRENT_TIMESTAMP, ?
   )
 `)
-
 export const saveEdit = (verseId, newText, clientIp) => {
 	insertEdit.run(verseId, newText, clientIp)
+}
+
+const numEditedTotalQuery = db.prepare(`
+	SELECT
+	SUM(CASE WHEN is_edited = 1 THEN 1 ELSE 0 END) AS edited_count,
+	SUM(CASE WHEN is_edited = 0 THEN 1 ELSE 0 END) AS unedited_count,
+	COUNT(*) AS total_count
+	FROM KJV_verses_live;
+`)
+const numEditedChapterQuery = db.prepare(`
+	SELECT
+	SUM(CASE WHEN is_edited = 1 THEN 1 ELSE 0 END) AS edited_count,
+	SUM(CASE WHEN is_edited = 0 THEN 1 ELSE 0 END) AS unedited_count,
+	COUNT(*) AS total_count
+	FROM KJV_verses_live
+	WHERE book_id = ? AND chapter = ?;
+`)
+export const getEditCoverage = (bookID = null, chapterID = null) => {
+	let stats
+	if (bookID === null && chapterID === null) stats = numEditedTotalQuery.get()
+	else stats = numEditedChapterQuery.get(bookID, chapterID)
+	stats.percent_edited = Math.round((stats.edited_count / stats.total_count) * 1000) / 10
+	return stats
 }

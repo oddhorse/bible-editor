@@ -32,10 +32,11 @@
 				<% } %>
 			</select>
 		</nav>
+		<p>percent edited: <%= chapterEditStats.percent_edited %>%</p>
 		<p class="chapter-text">
 			<% verses.forEach(v=> { %>
 				<sup class="verse-num"><%= v.verse %></sup>
-				<span class="verse-text" <% if (v.is_edited === 1) { %>data-is-edited="1"<% } %> data-verse-id="<%= v.id %>"><%= v.text %></span>
+				<span class="verse-text" <% if (v.is_edited === 1) { %>data-is-edited="true"<% } %> data-verse-id="<%= v.id %>"><%= v.text %></span>
 
 			<% }) %>
 		</p>
