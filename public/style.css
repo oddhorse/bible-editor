@@ -3,6 +3,7 @@ main {
 	margin: auto;
 	font-size: 20px;
 	line-height: 1.8;
+	z-index: 10;
 }
 
 .chapter-text .verse-num {
@@ -19,10 +20,23 @@ main {
 }
 
 .verse-text:focus-visible {
-	outline: 2px auto black;
-	outline-style: ridge;
+	outline-width: 2px;
+	outline-style: solid;
 	border-radius: 4px;
-	outline-offset: 3px;
+	outline-offset: 2.5px;
+
+	animation: flash-outline-color 700ms ease-out infinite alternate;
+}
+
+@keyframes flash-outline-color {
+
+	0% {
+		outline-color: #0007;
+	}
+
+	100% {
+		outline-color: #0002;
+	}
 }
 
 .verse-text,
@@ -30,16 +44,11 @@ main {
 	cursor: crosshair;
 }
 
-/* targets uhhh all verse number els whose next sibling 
-is a verse text element that is the focused element on 
-the page and has contenteditable html attr set to true */
-.verse-num:has(+ .verse-text[contenteditable="true"]:focus-visible) {
-	/* pointer-events: none; */
-}
-
 .verse-text[contenteditable="true"]:focus-visible {
 	cursor: text;
 }
+
+/* -----[WING NAV]----- */
 
 #wing-nav {
 	pointer-events: none;
@@ -47,7 +56,6 @@ the page and has contenteditable html attr set to true */
 	top: 0;
 	left: 0;
 	right: 0;
-	z-index: 10;
 	height: 100dvh;
 	display: flex;
 	justify-content: space-between;

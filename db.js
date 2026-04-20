@@ -9,8 +9,8 @@ import Database from "better-sqlite3"
 const db = new Database('./data/kjv.db')
 
 const verseQuery = db.prepare(`
-    SELECT id, chapter, verse, text
-    FROM KJV_verses
+    SELECT id, verse, text
+    FROM KJV_verses_live
     WHERE book_id = ? AND chapter = ?
     ORDER BY verse
 `)
@@ -80,4 +80,19 @@ const chaptersInBookQuery = db.prepare(`
 export const getNumChapters = (bookID) => {
 	const row = chaptersInBookQuery.get(bookID)
 	return row.chapter
+}
+
+const insertEdit = db.prepare(`
+  INSERT INTO verse_edits (
+    verse_id,
+    new_text,
+    edited_at,
+    client_ip
+  ) VALUES (
+    ?, ?, CURRENT_TIMESTAMP, ?
+  )
+`)
+
+export const saveEdit = (verseId, newText, clientIp) => {
+	insertEdit.run(verseId, newText, clientIp)
 }

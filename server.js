@@ -40,6 +40,13 @@ app.get('/:book/:chapter', (req, res) => {
 	res.render('index', { verses, bookName, bookID, chapterID, prev, next, allBooks, numChapters })
 })
 
+app.get('/edit', (req, res) => {
+	console.log("new shit coming in:")
+	console.log(req.query)
+	bible.saveEdit(req.query.verseID, req.query.newVerse, req.ip)
+	res.send("success!")
+})
+
 // listen on port
 app.listen(8008, () => {
 	console.log('server listening on port 8008!')

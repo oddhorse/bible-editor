@@ -73,8 +73,49 @@ const books = {
 	'66': { name: 'Revelation of John', chapters: 22 }
 }
 
-window.addEventListener('load', () => {
+const submitEdit = async (verseID, newVerse) => {
+	const params = new URLSearchParams({
+		verseID: verseID,
+		newVerse: newVerse,
+	})
+	const url = '/edit?' + params
+	return await fetch(url)
+}
 
+const enableVerseEdit = (verseEl) => {
+	verseEl.contentEditable = true
+	// saves original text as html attr so we can validate it when done editing
+	verseEl.dataset.origText = verseEl.innerText
+	verseEl.focus()
+}
+
+/**
+ * disables editable verse, validates result, and submits edit to server
+ * @param {HTMLSpanElement} verseEl - bible verse
+ * @returns 
+ */
+const disableVerseEdit = async (verseEl) => {
+	const origText = verseEl.dataset.origText
+	console.log(`began: "${origText}"
+		submitted: "${verseEl.innerText}"`)
+
+	verseEl.contentEditable = false
+	if (verseEl.innerText === origText) {
+		console.log("no change made in text... not submitting to server!")
+		return
+	}
+	if (verseEl.innerText === "") {
+		verseEl.innerText = origText
+		return
+	}
+	const response = await submitEdit(verseEl.dataset.verseId, verseEl.innerText)
+	const text = await response.text()
+	console.log(text)
+}
+
+
+
+window.addEventListener('load', () => {
 
 	const bookSel = document.getElementById("book-select")
 	// https://stackoverflow.com/questions/5024056/how-to-pass-parameters-on-onchange-of-html-select
@@ -89,25 +130,31 @@ window.addEventListener('load', () => {
 	})
 
 
-	const verseEls = document.getElementsByClassName("verse-text")
-	for (const verseEl of verseEls) {
-		const lineNumEl = verseEl.previousElementSibling
 
-		const verseElIsFocused = (document.activeElement === verseEl)
-
-		lineNumEl.addEventListener("mousedown", (ev) => {
-			// https://stackoverflow.com/questions/12154954/how-to-make-element-not-lose-focus-when-button-is-pressed
-			ev.preventDefault()
-			verseEl.contentEditable = true
-			verseEl.focus()
-		})
-		verseEl.addEventListener("mousedown", () => {
-			verseEl.contentEditable = true
-			verseEl.focus()
-		})
-		verseEl.addEventListener("blur", () => {
-			verseEl.contentEditable = false
-		})
+	const isCurrentlyEditing = () => {
+		const focusedEl = document.activeElement
+		return (focusedEl.contentEditable && focusedEl.classList.contains("verse-text"))
 	}
+
+	// any time an element is clicked, this runs
+	document.addEventListener("mousedown", (ev) => {
+		const textEl = ev.target.closest(".verse-text")
+		const numEl = ev.target.closest(".verse-num")
+		const wingNavEl = ev.target.closest("#wing-nav>a")
+		if (textEl && textEl.contentEditable !== true) {
+			enableVerseEdit(textEl)
+		} else if (numEl) {
+			// https://stackoverflow.com/questions/12154954/how-to-make-element-not-lose-focus-when-button-is-pressed
+			ev.preventDefault() // supresses defocusing of currently focused element
+			enableVerseEdit(numEl.nextElementSibling)
+		}
+	})
+
+	// every time any element is unfocused, this runs
+	document.addEventListener("focusout", (ev) => {
+		if (ev.target.classList.contains("verse-text")) {
+			disableVerseEdit(ev.target)
+		}
+	})
 })
 
