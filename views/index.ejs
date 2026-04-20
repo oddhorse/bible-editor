@@ -32,7 +32,7 @@
 				<% } %>
 			</select>
 		</nav>
-		<p>percent edited: <%= chapterEditStats.percent_edited %>%</p>
+		<p id="percent-stat">progress: <span class="number"><%= chapterEditStats.percent_edited %>%</span></p>
 		<p class="chapter-text">
 			<% verses.forEach(v=> { %>
 				<sup class="verse-num"><%= v.verse %></sup>
