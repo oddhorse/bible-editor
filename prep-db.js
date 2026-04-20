@@ -26,7 +26,8 @@ db.exec(`
     v.book_id,
     v.chapter,
     v.verse,
-    COALESCE(e.new_text, v.text) AS text
+    COALESCE(e.new_text, v.text) AS text,
+	CASE WHEN e.id IS NULL THEN 0 ELSE 1 END AS is_edited, e.edited_at AS last_edited_at
   FROM KJV_verses v
   LEFT JOIN verse_edits e ON e.id = (
     SELECT id

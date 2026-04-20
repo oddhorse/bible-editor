@@ -109,7 +109,9 @@ const disableVerseEdit = async (verseEl) => {
 		return
 	}
 	const response = await submitEdit(verseEl.dataset.verseId, verseEl.innerText)
+	const okay = response.ok
 	const text = await response.text()
+	if (response.ok) verseEl.dataset.isEdited = "1"
 	console.log(text)
 }
 
