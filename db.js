@@ -6,7 +6,7 @@
  */
 import Database from "better-sqlite3"
 
-const db = new Database('./data/kjv.db')
+const db = new Database('./data/KJV.db')
 
 const verseQuery = db.prepare(`
     SELECT id, verse, text, is_edited
