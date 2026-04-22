@@ -42,7 +42,7 @@ app.get('/:book/:chapter', (req, res) => {
 	res.render('index', { verses, bookName, bookID, chapterID, prev, next, allBooks, numChapters, chapterEditStats })
 })
 
-app.get('/edit', (req, res) => {
+app.post('/edit', (req, res) => {
 	bible.saveEdit(req.query.verseID, req.query.newVerse, req.ip)
 	res.send("success!")
 })

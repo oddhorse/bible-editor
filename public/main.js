@@ -79,7 +79,7 @@ const submitEdit = async (verseID, newVerse) => {
 		newVerse: newVerse,
 	})
 	const url = '/edit?' + params
-	return await fetch(url)
+	return await fetch(url, { method: "POST" })
 }
 
 const enableVerseEdit = (verseEl) => {
