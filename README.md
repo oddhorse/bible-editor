@@ -12,6 +12,14 @@ To run:
 npm run index.js
 ```
 
+## things to do
+
+- [ ] add cloudflare turnstile
+- [ ] word block list (density-based)
+- [ ] add rate limit
+- [ ] add stats pages
+- [ ] add ui clues to promote editing the verses
+
 ## credits
 
 king james version in sqlite is from [bible_databases](https://github.com/scrollmapper/bible_databases/tree/master)
