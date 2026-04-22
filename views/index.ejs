@@ -35,6 +35,7 @@
 		<p id="percent-stat">progress: <span class="number"><%= chapterEditStats.percent_edited %>%</span></p>
 		<p class="chapter-text">
 			<% verses.forEach(v=> { %>
+				<% if (v.paragraph === 1) { %></p><p class="chapter-text"><% } %>
 				<sup class="verse-num"><%= v.verse %></sup>
 				<span class="verse-text" <% if (v.is_edited === 1) { %>data-is-edited="true"<% } %> data-verse-id="<%= v.id %>"><%= v.text %></span>
 

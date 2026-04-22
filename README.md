@@ -19,6 +19,7 @@ npm run index.js
 - [ ] add rate limit
 - [ ] add stats pages
 - [ ] add ui clues to promote editing the verses
+- [ ] add home page with verse of the day
 
 ## credits
 
