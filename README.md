@@ -9,7 +9,7 @@ npm install
 To run:
 
 ```bash
-npm run index.js
+npm start
 ```
 
 ## things to do
@@ -20,6 +20,10 @@ npm run index.js
 - [ ] add stats pages
 - [ ] add ui clues to promote editing the verses
 - [ ] add home page with verse of the day
+- [ ] add random unedited chapter button
+- [ ] add per-verse stats
+- [ ] add most recent edits
+- [ ] add global progress bar for verses edited
 
 ## credits
 

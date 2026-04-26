@@ -1,7 +1,7 @@
 /**
  * db.js
  * by john trinh
- * 
+ *
  * all db queries
  */
 import Database from "better-sqlite3"
@@ -111,10 +111,14 @@ const numEditedChapterQuery = db.prepare(`
 	FROM KJV_verses_live
 	WHERE book_id = ? AND chapter = ?;
 `)
-export const getEditCoverage = (bookID = null, chapterID = null) => {
-	let stats
-	if (bookID === null && chapterID === null) stats = numEditedTotalQuery.get()
-	else stats = numEditedChapterQuery.get(bookID, chapterID)
+export const getChapterEditCoverage = (bookID, chapterID) => {
+	let stats = numEditedChapterQuery.get(bookID, chapterID)
+	stats.percent_edited = Math.round((stats.edited_count / stats.total_count) * 1000) / 10
+	return stats
+}
+
+export const getTotalEditCoverage = () => {
+	let stats = numEditedTotalQuery.get()
 	stats.percent_edited = Math.round((stats.edited_count / stats.total_count) * 1000) / 10
 	return stats
 }

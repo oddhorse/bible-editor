@@ -1,13 +1,13 @@
 /**
- * server.js
+ * server.ts
  * by john trinh
- *
+ * 
  * main server file
  */
 
 // -----[IMPORT LIBRARIES / MODULES]-----
 import Express from 'express'
-import * as bible from './db.js'
+import * as bible from './db.ts'
 
 // set up applications
 const app = Express() // express app normal stuff
