@@ -8,6 +8,7 @@
 // -----[IMPORT LIBRARIES / MODULES]-----
 import Express from 'express'
 import * as bible from './db.js'
+import { getDatePretty } from './util.js'
 
 // set up applications
 const app = Express() // express app normal stuff
@@ -22,7 +23,11 @@ app.set('view engine', 'ejs')
 
 // default route redirects to genesis 1:1
 app.get('/', (req, res) => {
-	res.render('index')
+	const votd = bible.getRandomEditedVerse()
+	console.log(votd.book_id)
+	const votdBookName = bible.getBookName(votd.book_id)
+	const prettyDate = getDatePretty()
+	res.render('index', { votd, votdBookName, prettyDate })
 })
 
 // main route for getting chapters
@@ -50,4 +55,8 @@ app.post('/edit', (req, res) => {
 // listen on port
 app.listen(8008, () => {
 	console.log('server listening on port 8008!')
+
+	setInterval(() => {
+
+	}, 1000 * 60 * 60 * 24) // 24 hrs
 })

@@ -5,6 +5,7 @@
  * all db queries
  */
 import Database from "better-sqlite3"
+import { getRandomIntBetween } from "./util.js"
 
 const db = new Database('./data/KJV.db')
 
@@ -121,4 +122,19 @@ export const getTotalEditCoverage = () => {
 	let stats = numEditedTotalQuery.get()
 	stats.percent_edited = Math.round((stats.edited_count / stats.total_count) * 1000) / 10
 	return stats
+}
+
+const allCurrentEditedVersesQuery = db.prepare(`
+	SELECT id, book_id, chapter, verse, text
+	FROM KJV_verses_live
+	WHERE is_edited = 1;
+`)
+// TODO ensure only new verse edits are picked each day
+export const getRandomEditedVerse = () => {
+	let allEdited = allCurrentEditedVersesQuery.all()
+	const total = allEdited.length
+	const randInt = getRandomIntBetween(0, total)
+	const selected = allEdited[randInt]
+	console.log(selected)
+	return selected
 }
