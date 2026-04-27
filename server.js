@@ -22,7 +22,7 @@ app.set('view engine', 'ejs')
 
 // default route redirects to genesis 1:1
 app.get('/', (req, res) => {
-	res.redirect('/1/1')
+	res.render('index')
 })
 
 // main route for getting chapters
@@ -39,7 +39,7 @@ app.get('/:book/:chapter', (req, res) => {
 	const numChapters = bible.getNumChapters(bookID)
 	const chapterEditStats = bible.getChapterEditCoverage(bookID, chapterID)
 	const totalEditStats = bible.getTotalEditCoverage()
-	res.render('index', { verses, bookName, bookID, chapterID, prev, next, allBooks, numChapters, chapterEditStats })
+	res.render('bible', { verses, bookName, bookID, chapterID, prev, next, allBooks, numChapters, chapterEditStats })
 })
 
 app.post('/edit', (req, res) => {

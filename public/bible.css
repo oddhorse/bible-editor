@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+main {
+	width: 400px;
+	margin: auto;
+	z-index: 10;
+}
+
+#percent-stat {
+	font-size: 15px;
+}
+
+#percent-stat .number {
+	font-size: 18px;
+}
+
+.chapter-title {
+	font-family: 'Crimson Text', serif;
+}
+
+.chapter-text {
+	text-indent: 30px;
+	font-family: 'Crimson Text', serif;
+	font-size: 20px;
+	line-height: 1.8;
+}
+
+.verse-num {
+	opacity: 0.55;
+	font-size: 15px;
+}
+
+.verse-text {
+	transition: color 100ms;
+}
+
+.verse-text[data-is-edited="true"] {
+	color: rgb(189, 0, 170);
+}
+
+.verse-text:hover {
+	/* color: #ff7bb6 */
+}
+
+.verse-text:focus-visible {
+	outline-width: 2px;
+	outline-style: solid;
+	border-radius: 4px;
+	outline-offset: 2.5px;
+
+	animation: flash-outline-color 700ms ease-out infinite alternate;
+}
+
+
+
+@keyframes flash-outline-color {
+
+	0% {
+		outline-color: #0007;
+	}
+
+	100% {
+		outline-color: #0002;
+	}
+}
+
+.verse-text,
+.verse-num {
+	cursor: crosshair;
+}
+
+.verse-text[contenteditable="true"]:focus-visible {
+	cursor: text;
+}
+
+/* -----[WING NAV]----- */
+
+#wing-nav {
+	pointer-events: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 100dvh;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	--outer-margin: 30px;
+	--inner-margin: 8dvw;
+	--height-margin: 50dvh;
+}
+
+#wing-nav a {
+	pointer-events: all;
+	text-decoration: none;
+	font-size: 50px;
+	color: black;
+	opacity: 0.55;
+	transition: all 60ms;
+}
+
+#wing-nav a:hover {
+	scale: 105%;
+	opacity: 1;
+}
+
+/* when there's no nav available, element stays but is hidden and disabled */
+#wing-nav a.disabled {
+	opacity: 0;
+	pointer-events: none;
+}
+
+/* https://cssgradient.io */
+#wing-nav-next:hover {
+	background: linear-gradient(270deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+#wing-nav-next p {
+	margin: var(--height-margin) var(--outer-margin) var(--height-margin) var(--inner-margin);
+}
+
+#wing-nav-prev:hover {
+	background: linear-gradient(90deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+#wing-nav-prev p {
+	margin: var(--height-margin) var(--inner-margin) var(--height-margin) var(--outer-margin);
+}
+
+
+
+
+@media (max-width: 600px) {
+
+	/* tighten layout on small screens */
+	main {
+		width: min(100%, 36ch);
+		padding-inline: 16px;
+		font-size: 18px;
+		line-height: 1.7;
+	}
+
+	/* reduce wing nav footprint */
+	#wing-nav {
+		--outer-margin: 14px;
+		--inner-margin: 4dvw;
+		--height-margin: 30px;
+		top: unset;
+		bottom: 0;
+		height: fit-content;
+	}
+
+	#wing-nav a {
+		font-size: 36px;
+		height: 50px;
+		width: 50px;
+	}
+
+	#wing-nav-prev:hover,
+	#wing-nav-next:hover {
+		background: unset;
+	}
+
+	#wing-nav a p {
+		margin: 0;
+		height: 50px;
+		width: 50px;
+		text-align: center;
+	}
+}

@@ -1,7 +1,7 @@
 /**
- * main.js
+ * bible.js
  * by john trinh
- * main client side scripting
+ * bible reader client side scripting
  */
 
 const books = {

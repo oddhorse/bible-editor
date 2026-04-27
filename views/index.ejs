@@ -7,72 +7,28 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>The Bible - <%= bookName %> <%= chapterID %>
-	</title>
+	<title>OpenBible - the people's bible</title>
 	<link rel="stylesheet" href="/style.css">
-	<script src="/main.js"></script>
+	<link rel="stylesheet" href="/index.css">
 </head>
 
-<body data-book-id="<%= bookID %>" data-chapter-id="<%= chapterID %>">
+<body>
+	<%- include('header.ejs') %>
 	<main>
-		<h2><%= bookName %> <%= chapterID %></h2>
-		<nav>
-			<select name="book" id="book-select">
-				<% allBooks.forEach(book=> { %>
-					<option value="<%= book.id %>" <% if (book.id===bookID) { %>selected<% } %>>
-						<%= book.name %>
-					</option>
-				<% }) %>
-			</select>
-			<select name="chapter" id="chapter-select">
-				<% for( let i=1; i <=numChapters; i++ ) { %>
-					<option value="<%= i %>" <% if (i===chapterID) { %>selected<% } %>>
-						<%= i %>
-					</option>
-				<% } %>
-			</select>
-		</nav>
-		<p id="percent-stat">progress: <span class="number"><%= chapterEditStats.percent_edited %>%</span></p>
-		<p class="chapter-text">
-			<% verses.forEach(v=> { %>
-				<% if (v.paragraph === 1) { %></p><p class="chapter-text"><% } %>
-				<sup class="verse-num"><%= v.verse %></sup>
-				<span class="verse-text" <% if (v.is_edited === 1) { %>data-is-edited="true"<% } %> data-verse-id="<%= v.id %>"><%= v.text %></span>
-
-			<% }) %>
-		</p>
-		<nav>
-			<% if (prev) { %>
-				<a href="/<%= prev.book_id %>/<%= prev.chapter %>">prev chapter</a>
-			<% } %>
-			<% if (next) { %>
-				<a href="/<%= next.book_id %>/<%= next.chapter %>">next chapter</a>
-			<% } %>
-		</nav>
+		<div class="hero">
+			<p class="tagline">Together, we're writing the <span class="text-highlight">People's Open Bible</span>—the Bible anyone can edit, anonymously.</p>
+			<div class="btn-set">
+				<a href="" class="alt">take a read</a>
+				<a href="" class="main">edit a page</a>
+			</div>
+		</div>
+		<a href="/1/1" id="votd">
+			<p class="other">Verse of the day – April 22, 2026</p>
+			<p class="quote">"And God said, Let there be ants"</p>
+			<p class="other">- Genesis 1:3, People's Open Bible</p>
+		</a>
+		<p class="stat-line"><span class="wavy-text">Together</span>, we have written <i>25 verses</i> across <i>5 chapters</i> of <i>2 books</i> in the Bible.</p>
 	</main>
-	<!-- forgot about entities lol https://stackoverflow.com/questions/14659240/angle-bracket-without-triggering-html-code -->
-	<nav id="wing-nav">
-		<a id="wing-nav-prev"
-			<% if (prev) { %>
-				href="/<%= prev.book_id %>/<%= prev.chapter %>"
-			<% } else { %>
-				href="#"
-				class="disabled"
-			<% } %>
-		>
-			<p>&lt;</p>
-		</a>
-		<a id="wing-nav-next"
-			<% if (next) { %>
-				href="/<%= next.book_id %>/<%= next.chapter %>"
-			<% } else { %>
-				href="#"
-				class="disabled"
-			<% } %>
-		>
-			<p>&gt;</p>
-		</a>
-	</nav>
 </body>
 
 </html>
