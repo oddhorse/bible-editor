@@ -242,10 +242,6 @@ main [id^="verse-"] {
 	display: none;
 }
 
-#appearance-panel:hover {
-	scale: unset;
-}
-
 #appearance-panel * {
 	user-select: none;
 }
@@ -340,6 +336,28 @@ body[data-appearance-size="lg"] .chapter-title {
 body[data-appearance-size="lg"] .chapter-text,
 #appr-sz-lg {
 	font-size: calc(24px + var(--font-add));
+}
+
+/* -----[STATS PANEL]----- */
+
+#verse-stats-clickme {
+	color: #00000089;
+	cursor: pointer;
+	font-size: 14px;
+	width: fit-content;
+}
+
+#verse-stats-detail {
+	display: block;
+	text-align: left;
+
+	background-color: #FFF;
+	border-radius: 15px;
+	padding: 9px 18px;
+}
+
+#verse-stats-detail[hidden] {
+	display: none;
 }
 
 @media (max-width: 600px) {

@@ -163,7 +163,12 @@ window.addEventListener('load', () => {
 			else if (apprSzMd) setAppearanceSizeOption("md")
 			else if (apprSzLg) setAppearanceSizeOption("lg")
 		}
+	})
 
+	const statDetail = document.getElementById("verse-stats-detail")
+	document.addEventListener("click", (ev) => {
+		const statBtn = ev.target.closest("#verse-stats-clickme")
+		if (statBtn) statDetail.toggleAttribute("hidden")
 	})
 })
 

@@ -58,8 +58,13 @@
 	
 	<main>
 		<h1 class="chapter-title"><%= bookName %> <%= chapterID %></h1>
+		<div id="verse-stats-container"><p id="verse-stats-clickme">&blacktriangledown; see verse stats &blacktriangledown;</p>
+			<section id="verse-stats-detail" hidden>
+				<p id="percent-stat">progress: <span class="number"><%= chapterEditStats.percent_edited %>%</span></p>
+			</section>
+			
+		</div>
 		
-		<p id="percent-stat">progress: <span class="number"><%= chapterEditStats.percent_edited %>%</span></p>
 		<p class="chapter-text">
 			<% verses.forEach(v=> { %>
 				<% if (v.paragraph === 1) { %></p><p class="chapter-text"><% } %>
