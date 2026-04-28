@@ -9,6 +9,7 @@
 import Express from 'express'
 import * as bible from './db.js'
 import { getDatePretty } from './util.js'
+import cookieParser from 'cookie-parser'
 
 // set up applications
 const app = Express() // express app normal stuff
@@ -17,6 +18,7 @@ const app = Express() // express app normal stuff
 app.use(Express.static('public'))
 app.use(Express.json()) // needed for pushing json data in a post request https://www.geeksforgeeks.org/web-tech/express-js-express-json-function/
 app.use(Express.urlencoded({ extended: true }))
+app.use(cookieParser())
 app.set('view engine', 'ejs')
 
 // -----[ROUTES]-----
@@ -36,6 +38,8 @@ app.get('/', (req, res) => {
 // https://expressjs.com/en/guide/routing.html#route-parameters
 app.get('/:book/:chapter', (req, res) => {
 	const currentPath = req.path
+	const appearanceFont = req.cookies.appearanceFont || 'serif'
+	const appearanceSize = req.cookies.appearanceSize || 'md'
 	let bookID = parseInt(req.params.book)
 	let chapterID = parseInt(req.params.chapter)
 	if (!bible.chapterExists(bookID, chapterID)) return res.redirect('/1/1')
@@ -47,7 +51,8 @@ app.get('/:book/:chapter', (req, res) => {
 	const numChapters = bible.getNumChapters(bookID)
 	const chapterEditStats = bible.getChapterEditCoverage(bookID, chapterID)
 	const totalEditStats = bible.getTotalEditCoverage()
-	res.render('bible', { verses, bookName, bookID, chapterID, prev, next, allBooks, numChapters, chapterEditStats, currentPath })
+	const randUneditedChapter = bible.getRandomUneditedChapter()
+	res.render('bible', { verses, bookName, bookID, chapterID, prev, next, allBooks, numChapters, chapterEditStats, currentPath, appearanceFont, appearanceSize, randUneditedChapter })
 })
 
 app.post('/edit', (req, res) => {

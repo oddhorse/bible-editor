@@ -14,7 +14,7 @@
 	<script src="/bible.js"></script>
 </head>
 
-<body data-book-id="<%= bookID %>" data-chapter-id="<%= chapterID %>">
+<body data-book-id="<%= bookID %>" data-chapter-id="<%= chapterID %>" data-appearance-font="<%= appearanceFont %>" data-appearance-size="<%= appearanceSize %>">
 	<header>
 		<%- include('header', { currentPath }) %>
 		<nav id="reader-nav">
@@ -46,17 +46,17 @@
 						<option value="serif" id="appr-font-serif" aria-selected="true">Aa</option>
 					</optgroup>
 					<p>size:</p>
-					<optgroup>
-						<option value="sm" id="appr-sz-sm">small</option>
-						<option value="md" id="appr-sz-md">medium</option>
-						<option value="lg" id="appr-sz-lg">large</option>
+					<optgroup id="appr-grp-sz">
+						<option value="sm" id="appr-sz-sm" aria-selected="false">small</option>
+						<option value="md" id="appr-sz-md" aria-selected="true">medium</option>
+						<option value="lg" id="appr-sz-lg" aria-selected="false">large</option>
 					</optgroup>
 			</section>
-			
+			<a href="/<%= randUneditedChapter.book_id %>/<%= randUneditedChapter.chapter %>" id="rand-unedited-btn" class="cursor-hover-effect">random</a>
 		</nav>
 	</header>
 	
-	<main data-appearance-font="serif" data-appearance-size="md">
+	<main>
 		<h1 class="chapter-title"><%= bookName %> <%= chapterID %></h1>
 		
 		<p id="percent-stat">progress: <span class="number"><%= chapterEditStats.percent_edited %>%</span></p>

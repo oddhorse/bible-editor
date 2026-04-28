@@ -52,15 +52,51 @@ const isCurrentlyEditing = () => {
 }
 
 const setAppearanceSizeOption = (val) => {
-	const mainEl = document.getElementsByTagName("main")[0]
-	mainEl.dataset.appearanceSize = val
+	document.body.dataset.appearanceSize = val
+	const maxAge = 365 * 24 * 60 * 60
+	document.cookie = `appearanceSize=${val}; Path=/; Max-Age=${maxAge}`
+	validateAppearanceSizeOptions(val)
+}
 
+const validateAppearanceSizeOptions = (val) => {
+	if (val === "sm") {
+		document.getElementById("appr-sz-sm").ariaSelected = true
+		document.getElementById("appr-sz-md").ariaSelected = false
+		document.getElementById("appr-sz-lg").ariaSelected = false
+	} else if (val === "md") {
+		document.getElementById("appr-sz-sm").ariaSelected = false
+		document.getElementById("appr-sz-md").ariaSelected = true
+		document.getElementById("appr-sz-lg").ariaSelected = false
+	} else if (val === "lg") {
+		document.getElementById("appr-sz-sm").ariaSelected = false
+		document.getElementById("appr-sz-md").ariaSelected = false
+		document.getElementById("appr-sz-lg").ariaSelected = true
+	}
+}
 
+const setAppearanceFontOption = (val) => {
+	document.body.dataset.appearanceFont = val
+	const maxAge = 365 * 24 * 60 * 60
+	document.cookie = `appearanceFont=${val}; Path=/; Max-Age=${maxAge}`
+	validateAppearanceFontOptions(val)
+}
+
+const validateAppearanceFontOptions = (val) => {
+	if (val === "sans") {
+		document.getElementById("appr-font-sans").ariaSelected = true
+		document.getElementById("appr-font-serif").ariaSelected = false
+	} else if (val === "serif") {
+		document.getElementById("appr-font-sans").ariaSelected = false
+		document.getElementById("appr-font-serif").ariaSelected = true
+	}
 }
 
 
 
 window.addEventListener('load', () => {
+	// set user-selected choices in appearance panel
+	validateAppearanceFontOptions(document.body.dataset.appearanceFont)
+	validateAppearanceSizeOptions(document.body.dataset.appearanceSize)
 
 	const bookSel = document.getElementById("book-select")
 	// https://stackoverflow.com/questions/5024056/how-to-pass-parameters-on-onchange-of-html-select
@@ -113,10 +149,7 @@ window.addEventListener('load', () => {
 	document.addEventListener("click", (ev) => {
 		const apprBtn = ev.target.closest("#appearance-btn")
 		const apprPnlQ = ev.target.closest("#appearance-panel")
-		if (apprBtn) {
-
-			apprPanel.hidden = false
-		}
+		if (apprBtn) apprPanel.hidden = false
 		else if (!apprPnlQ) apprPanel.hidden = true
 		else if (apprPnlQ) {
 			const apprFontSerif = ev.target.closest("#appr-font-serif")
@@ -124,11 +157,11 @@ window.addEventListener('load', () => {
 			const apprSzSm = ev.target.closest("#appr-sz-sm")
 			const apprSzMd = ev.target.closest("#appr-sz-md")
 			const apprSzLg = ev.target.closest("#appr-sz-lg")
-			if (apprFontSerif) mainEl.dataset.appearanceFont = "serif"
-			else if (apprFontSans) mainEl.dataset.appearanceFont = "sans"
-			else if (apprSzSm) mainEl.dataset.appearanceSize = "sm"
-			else if (apprSzMd) mainEl.dataset.appearanceSize = "md"
-			else if (apprSzLg) mainEl.dataset.appearanceSize = "lg"
+			if (apprFontSerif) setAppearanceFontOption("serif")
+			else if (apprFontSans) setAppearanceFontOption("sans")
+			else if (apprSzSm) setAppearanceSizeOption("sm")
+			else if (apprSzMd) setAppearanceSizeOption("md")
+			else if (apprSzLg) setAppearanceSizeOption("lg")
 		}
 
 	})

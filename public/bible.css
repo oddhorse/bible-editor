@@ -165,7 +165,7 @@ main {
 	/* filter: drop-shadow(0px 0px 2px #00000028); */
 	grid-area: 1 / 2 / 2 / 3;
 	padding: 6px;
-	gap: 3px;
+	gap: 6px;
 }
 
 #dropdowns {
@@ -262,48 +262,79 @@ main {
 
 #appr-grp-font option {
 	font-size: 28px;
+	padding: 2px 6px;
+}
+
+#appearance-panel option[aria-selected=true] {
+	outline: 2px solid #000;
+	border-radius: 6px;
+}
+
+#rand-unedited-btn {
+	display: flex;
+	position: relative;
+	box-sizing: border-box;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	height: 30px;
+	/* width: 30px; */
+	text-wrap-mode: nowrap;
+	padding: 0 10px;
+	border: 1.5px solid rgba(0, 0, 0, 0.109);
+	filter: drop-shadow(0px 0.5px 1px #0000000c);
+	background-color: #fff;
+	border-radius: 30px;
+
+	cursor: pointer;
 }
 
 /* -----[APPEARANCE SETTINGS]----- */
 
-main[data-appearance-font="serif"] .chapter-title,
-main[data-appearance-font="serif"] .chapter-text,
+body[data-appearance-font="serif"] .chapter-title,
+body[data-appearance-font="serif"] .chapter-text,
+body[data-appearance-font="serif"] #appr-grp-sz option,
 #appr-font-serif {
 	font-family: 'Crimson Text', serif;
+	--font-add: 5%;
+	line-height: 1.8;
 }
 
-main[data-appearance-font="sans"] .chapter-title,
-main[data-appearance-font="sans"] .chapter-text,
+body[data-appearance-font="sans"] .chapter-title,
+body[data-appearance-font="sans"] .chapter-text,
+body[data-appearance-font="sans"] #appr-grp-sz option,
 #appr-font-sans {
 	font-family: 'Inter', sans-serif;
+	--font-add: -10%;
+	line-height: 2;
 }
 
 
-main[data-appearance-size="sm"] .chapter-title {
-	font-size: 28px;
+body[data-appearance-size="sm"] .chapter-title {
+	font-size: calc(28px + var(--font-add));
 }
 
-main[data-appearance-size="sm"] .chapter-text,
+body[data-appearance-size="sm"] .chapter-text,
 #appr-sz-sm {
-	font-size: 16px;
+	font-size: calc(16px + var(--font-add));
 }
 
-main[data-appearance-size="md"] .chapter-title {
-	font-size: 32px;
+body[data-appearance-size="md"] .chapter-title {
+	font-size: calc(32px + var(--font-add));
 }
 
-main[data-appearance-size="md"] .chapter-text,
+body[data-appearance-size="md"] .chapter-text,
 #appr-sz-md {
-	font-size: 20px;
+	font-size: calc(20px + var(--font-add));
 }
 
-main[data-appearance-size="lg"] .chapter-title {
-	font-size: 36px;
+body[data-appearance-size="lg"] .chapter-title {
+	font-size: calc(36px + var(--font-add));
 }
 
-main[data-appearance-size="lg"] .chapter-text,
+body[data-appearance-size="lg"] .chapter-text,
 #appr-sz-lg {
-	font-size: 24px;
+	font-size: calc(24px + var(--font-add));
 }
 
 @media (max-width: 600px) {
