@@ -1,7 +1,11 @@
-<header>
-	<a href="/" class="openbible-logo">OpenBible</a>
-	<nav>
-		<a href="/1/1">bible</a>
-		<a href="/stats">stats</a>
-	</nav>
-</header>
+<a href="/" class="openbible-logo" aria-current="<%= currentPath === '/' ? 'page' : null %>">
+	<div class="button-inner">OpenBible</div>
+</a>
+<nav class="links">
+	<a href="/1/1" aria-current="<%= currentPath !== '/' && currentPath !== '/stats' ? 'page' : null %>">
+		<div class="button-inner">bible</div>
+	</a>
+	<a href="/stats" aria-current="<%= currentPath === '/stats' ? 'page' : null %>">
+		<div class="button-inner">stats</div>
+	</a>
+</nav>

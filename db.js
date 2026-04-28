@@ -138,3 +138,19 @@ export const getRandomEditedVerse = () => {
 	console.log(selected)
 	return selected
 }
+
+const randomUneditedChaptersQuery = db.prepare(`
+	SELECT
+		book_id,
+		chapter,
+		SUM(CASE WHEN is_edited = 1 THEN 1 ELSE 0 END) AS edited_count,
+		SUM(CASE WHEN is_edited = 0 THEN 1 ELSE 0 END) AS unedited_count,
+		COUNT(*) AS total_count
+	FROM KJV_verses_live
+	GROUP BY book_id, chapter
+	ORDER BY edited_count ASC, RANDOM()
+	LIMIT 1;
+`)
+export const getRandomUneditedChapter = () => {
+	return randomUneditedChaptersQuery.get()
+}

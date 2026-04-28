@@ -13,16 +13,20 @@
 </head>
 
 <body>
-	<%- include('header.ejs') %>
+	<header>
+		<%- include('header', { currentPath }) %>
+	</header>
 	<main>
 		<div class="hero">
-			<p class="tagline">Together, we're writing the <span class="text-highlight">People's Open Bible</span>—the Bible anyone can edit, anonymously.</p>
+			<p class="tagline">Together, we're writing the <span class="text-highlight">People's Open Bible</span>—the
+				Bible anyone can edit, anonymously.</p>
 			<div class="btn-set">
-				<a href="" class="alt">take a read</a>
-				<a href="" class="main">edit a page</a>
+				<a href="" class="alt cursor-hover-effect">take a read</a>
+				<a href="/<%= randUneditedChapter.book_id %>/<%= randUneditedChapter.chapter %>"
+					class="main cursor-hover-effect">edit a page</a>
 			</div>
 		</div>
-		<a href="/1/1" id="votd">
+		<a href="/<%= votd.book_id %>/<%= votd.chapter %>#verse-<%= votd.id %>" id="votd">
 			<p class="other">Verse of the day – <%= prettyDate %></p>
 			<p class="quote">"<%= votd.text %>"</p>
 			<p class="other">- <%= votdBookName %> <%= votd.chapter %>:<%= votd.verse %>, People's Open Bible</p>

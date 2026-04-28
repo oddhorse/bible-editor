@@ -4,75 +4,6 @@
  * bible reader client side scripting
  */
 
-const books = {
-	'1': { name: 'Genesis', chapters: 50 },
-	'2': { name: 'Exodus', chapters: 40 },
-	'3': { name: 'Leviticus', chapters: 27 },
-	'4': { name: 'Numbers', chapters: 36 },
-	'5': { name: 'Deuteronomy', chapters: 34 },
-	'6': { name: 'Joshua', chapters: 24 },
-	'7': { name: 'Judges', chapters: 21 },
-	'8': { name: 'Ruth', chapters: 4 },
-	'9': { name: 'I Samuel', chapters: 31 },
-	'10': { name: 'II Samuel', chapters: 24 },
-	'11': { name: 'I Kings', chapters: 22 },
-	'12': { name: 'II Kings', chapters: 25 },
-	'13': { name: 'I Chronicles', chapters: 29 },
-	'14': { name: 'II Chronicles', chapters: 36 },
-	'15': { name: 'Ezra', chapters: 10 },
-	'16': { name: 'Nehemiah', chapters: 13 },
-	'17': { name: 'Esther', chapters: 10 },
-	'18': { name: 'Job', chapters: 42 },
-	'19': { name: 'Psalms', chapters: 150 },
-	'20': { name: 'Proverbs', chapters: 31 },
-	'21': { name: 'Ecclesiastes', chapters: 12 },
-	'22': { name: 'Song of Solomon', chapters: 8 },
-	'23': { name: 'Isaiah', chapters: 66 },
-	'24': { name: 'Jeremiah', chapters: 52 },
-	'25': { name: 'Lamentations', chapters: 5 },
-	'26': { name: 'Ezekiel', chapters: 48 },
-	'27': { name: 'Daniel', chapters: 12 },
-	'28': { name: 'Hosea', chapters: 14 },
-	'29': { name: 'Joel', chapters: 3 },
-	'30': { name: 'Amos', chapters: 9 },
-	'31': { name: 'Obadiah', chapters: 1 },
-	'32': { name: 'Jonah', chapters: 4 },
-	'33': { name: 'Micah', chapters: 7 },
-	'34': { name: 'Nahum', chapters: 3 },
-	'35': { name: 'Habakkuk', chapters: 3 },
-	'36': { name: 'Zephaniah', chapters: 3 },
-	'37': { name: 'Haggai', chapters: 2 },
-	'38': { name: 'Zechariah', chapters: 14 },
-	'39': { name: 'Malachi', chapters: 4 },
-	'40': { name: 'Matthew', chapters: 28 },
-	'41': { name: 'Mark', chapters: 16 },
-	'42': { name: 'Luke', chapters: 24 },
-	'43': { name: 'John', chapters: 21 },
-	'44': { name: 'Acts', chapters: 28 },
-	'45': { name: 'Romans', chapters: 16 },
-	'46': { name: 'I Corinthians', chapters: 16 },
-	'47': { name: 'II Corinthians', chapters: 13 },
-	'48': { name: 'Galatians', chapters: 6 },
-	'49': { name: 'Ephesians', chapters: 6 },
-	'50': { name: 'Philippians', chapters: 4 },
-	'51': { name: 'Colossians', chapters: 4 },
-	'52': { name: 'I Thessalonians', chapters: 5 },
-	'53': { name: 'II Thessalonians', chapters: 3 },
-	'54': { name: 'I Timothy', chapters: 6 },
-	'55': { name: 'II Timothy', chapters: 4 },
-	'56': { name: 'Titus', chapters: 3 },
-	'57': { name: 'Philemon', chapters: 1 },
-	'58': { name: 'Hebrews', chapters: 13 },
-	'59': { name: 'James', chapters: 5 },
-	'60': { name: 'I Peter', chapters: 5 },
-	'61': { name: 'II Peter', chapters: 3 },
-	'62': { name: 'I John', chapters: 5 },
-	'63': { name: 'II John', chapters: 1 },
-	'64': { name: 'III John', chapters: 1 },
-	'65': { name: 'Jude', chapters: 1 },
-	'66': { name: 'Revelation of John', chapters: 22 }
-}
-
 const submitEdit = async (verseID, newVerse) => {
 	const params = new URLSearchParams({
 		verseID: verseID,
@@ -120,6 +51,13 @@ const isCurrentlyEditing = () => {
 	return (focusedEl.contentEditable && focusedEl.classList.contains("verse-text"))
 }
 
+const setAppearanceSizeOption = (val) => {
+	const mainEl = document.getElementsByTagName("main")[0]
+	mainEl.dataset.appearanceSize = val
+
+
+}
+
 
 
 window.addEventListener('load', () => {
@@ -148,6 +86,8 @@ window.addEventListener('load', () => {
 			ev.preventDefault() // supresses defocusing of currently focused element
 			enableVerseEdit(numEl.nextElementSibling)
 		}
+
+
 	})
 
 	// ends edit on enter
@@ -157,7 +97,7 @@ window.addEventListener('load', () => {
 			verseEl.blur()
 			disableVerseEdit(verseEl)
 		}
-		console.log(`key pressed! ${ev.key}`)
+		// console.log(`key pressed! ${ev.key}`)
 	})
 
 	// every time any element is unfocused, this runs
@@ -165,6 +105,32 @@ window.addEventListener('load', () => {
 		if (ev.target.classList.contains("verse-text")) {
 			disableVerseEdit(ev.target)
 		}
+	})
+
+	const apprBtn = document.getElementById("appearance-btn")
+	const apprPanel = document.getElementById("appearance-panel")
+	const mainEl = document.getElementsByTagName("main")[0]
+	document.addEventListener("click", (ev) => {
+		const apprBtn = ev.target.closest("#appearance-btn")
+		const apprPnlQ = ev.target.closest("#appearance-panel")
+		if (apprBtn) {
+
+			apprPanel.hidden = false
+		}
+		else if (!apprPnlQ) apprPanel.hidden = true
+		else if (apprPnlQ) {
+			const apprFontSerif = ev.target.closest("#appr-font-serif")
+			const apprFontSans = ev.target.closest("#appr-font-sans")
+			const apprSzSm = ev.target.closest("#appr-sz-sm")
+			const apprSzMd = ev.target.closest("#appr-sz-md")
+			const apprSzLg = ev.target.closest("#appr-sz-lg")
+			if (apprFontSerif) mainEl.dataset.appearanceFont = "serif"
+			else if (apprFontSans) mainEl.dataset.appearanceFont = "sans"
+			else if (apprSzSm) mainEl.dataset.appearanceSize = "sm"
+			else if (apprSzMd) mainEl.dataset.appearanceSize = "md"
+			else if (apprSzLg) mainEl.dataset.appearanceSize = "lg"
+		}
+
 	})
 })
 

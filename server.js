@@ -23,16 +23,19 @@ app.set('view engine', 'ejs')
 
 // default route redirects to genesis 1:1
 app.get('/', (req, res) => {
+	const currentPath = req.path
 	const votd = bible.getRandomEditedVerse()
 	console.log(votd.book_id)
 	const votdBookName = bible.getBookName(votd.book_id)
 	const prettyDate = getDatePretty()
-	res.render('index', { votd, votdBookName, prettyDate })
+	const randUneditedChapter = bible.getRandomUneditedChapter()
+	res.render('index', { votd, votdBookName, prettyDate, randUneditedChapter, currentPath })
 })
 
 // main route for getting chapters
 // https://expressjs.com/en/guide/routing.html#route-parameters
 app.get('/:book/:chapter', (req, res) => {
+	const currentPath = req.path
 	let bookID = parseInt(req.params.book)
 	let chapterID = parseInt(req.params.chapter)
 	if (!bible.chapterExists(bookID, chapterID)) return res.redirect('/1/1')
@@ -44,7 +47,7 @@ app.get('/:book/:chapter', (req, res) => {
 	const numChapters = bible.getNumChapters(bookID)
 	const chapterEditStats = bible.getChapterEditCoverage(bookID, chapterID)
 	const totalEditStats = bible.getTotalEditCoverage()
-	res.render('bible', { verses, bookName, bookID, chapterID, prev, next, allBooks, numChapters, chapterEditStats })
+	res.render('bible', { verses, bookName, bookID, chapterID, prev, next, allBooks, numChapters, chapterEditStats, currentPath })
 })
 
 app.post('/edit', (req, res) => {

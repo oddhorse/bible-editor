@@ -24,8 +24,19 @@ main {
 
 .hero .btn-set a {
 	padding: 8px 16px;
+	font-size: 15px;
 	border-radius: 30px;
 	text-decoration: none;
+	display: inline-block;
+	/* inline elements don't scale */
+	filter: drop-shadow(0px 2px 2px #00000047);
+	margin: 0 6px;
+
+	box-shadow: inset 0px 0px 15px 0px #ffffff4c;
+}
+
+.hero .btn-set a:hover {
+	scale: 103%;
 }
 
 .hero .btn-set .main {
@@ -49,16 +60,13 @@ main {
 	filter: drop-shadow(0px 2px 4px #00000062);
 
 	transition: scale 50ms;
+	will-change: scale;
 }
 
 #votd:hover {
-	scale: 103%;
+	scale: 101%;
 }
 
-#votd,
-#votd>p {
-	cursor: pointer;
-}
 
 #votd .quote {
 	font-size: 35px;

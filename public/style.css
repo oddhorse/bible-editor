@@ -7,15 +7,49 @@ body {
 
 /* -----[NAVBAR]----- */
 header {
-	display: flex;
 	/* width: 100dvw; */
-	justify-content: space-between;
 	padding: 20px;
-	border-bottom: 1px solid #00000035;
-	align-items: baseline;
+	/* border-bottom: 1px solid #00000035; */
+	align-items: center;
 	z-index: 20;
 	position: sticky;
+	top: 0;
+
+	/* filter: drop-shadow(0px 0px 2px #00000028); */
+
+	/* #godsend https://cssgrid-generator.netlify.app */
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: 1fr;
+	grid-column-gap: 0px;
+	grid-row-gap: 0px;
+}
+
+header>* {
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+
 	background-color: #FFF;
+
+	border-radius: 30px;
+	filter: drop-shadow(0px 2px 2px #00000032);
+
+	border-radius: 30px;
+}
+
+header .openbible-logo {
+	grid-area: 1 / 1 / 2 / 2;
+	width: fit-content;
+	height: 42px;
+}
+
+header .links {
+	grid-area: 1 / 3 / 2 / 4;
+	justify-self: right;
+	height: 36px;
 }
 
 .openbible-logo {
@@ -25,11 +59,82 @@ header {
 
 header a {
 	text-decoration: none;
+	color: #676767;
+}
+
+header a .button-inner {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	transition: scale 50ms, box-shadow 50ms;
+	will-change: scale, box-shadow;
+	box-sizing: border-box;
+
+
+
+	padding: 6px 12px;
+
+	border-radius: 30px;
+}
+
+header .openbible-logo .button-inner {
+	margin: 2px 4px;
+	height: 36px;
+}
+
+header .links {
+	padding: 0px 4px;
+}
+
+header .links .button-inner {
+	margin: 2px 0px;
+	height: 30px;
+}
+
+
+header a[aria-current="page"] .button-inner,
+header a:hover .button-inner {
+	background-color: #FFF;
 	color: #000;
 }
 
+header a:hover .button-inner,
+header a[aria-current="page"]:hover .button-inner {
+	box-shadow: inset 0px 0px 7px 0px #0000003e;
+}
+
+header a[aria-current="page"] .button-inner {
+	box-shadow: inset 0px 0px 6px 0px #00000026;
+}
+
+header .openbible-logo:hover .button-inner {
+	scale: 102%;
+}
+
+header .links a:hover .button-inner {
+	scale: 104%;
+}
+
 header>nav {
-	gap: 10px;
+	/* gap: 10px; */
 	display: flex;
 	font-size: 14px;
+	font-weight: 600;
+}
+
+header nav a[aria-current="page"] {
+	color: #000;
+	font-weight: 800;
+	text-decoration: underline solid #000 1.5px;
+	/* cursor: pointer; */
+}
+
+.cursor-hover-effect {
+	transition: scale 50ms;
+	will-change: scale;
+}
+
+.cursor-hover-effect:hover {
+	scale: 103%;
 }
