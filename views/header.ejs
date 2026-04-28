@@ -2,7 +2,8 @@
 	<div class="button-inner">OpenBible</div>
 </a>
 <nav class="links">
-	<a href="/1/1" aria-current="<%= currentPath !== '/' && currentPath !== '/stats' ? 'page' : null %>">
+	<a href="<%= currentPath !== '/' && currentPath !== '/stats' ? '#' : '/1/1' %>"
+		aria-current="<%= currentPath !== '/' && currentPath !== '/stats' ? 'page' : null %>">
 		<div class="button-inner">bible</div>
 	</a>
 	<a href="/stats" aria-current="<%= currentPath === '/stats' ? 'page' : null %>">
