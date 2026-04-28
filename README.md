@@ -37,14 +37,25 @@ first save edits as json:
 
 second git pull or whatever
 
-third restore
+third copy KJV-original.db as KJV.db
+
+fourth run prep-db.js
+
+fifth restore
 
  ```bash
  sqlite3 data/KJV.db << 'EOF'
+ WITH src AS (
+ SELECT
+ json_extract(value, '$.verse_id') AS verse_id,
+ json_extract(value, '$.new_text') AS new_text,
+ json_extract(value, '$.edited_at') AS edited_at,
+ json_extract(value, '$.client_ip') AS client_ip
+ FROM json_each(CAST(readfile('edits-backup.json') AS TEXT))
+ )
  INSERT INTO verse_edits (verse_id, new_text, edited_at, client_ip)
- SELECT verse_id, new_text, edited_at, client_ip FROM json_each('edits-backup.json')
- AS jdata(verse_id, new_text, edited_at, client_ip)
- WHERE ...
+ SELECT verse_id, new_text, edited_at, client_ip
+ FROM src;
  EOF
  ```
 
