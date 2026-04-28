@@ -6,6 +6,11 @@ main {
 	z-index: 10;
 }
 
+/* FIXED GO-TO-ID-THRU-URL BEING UNDER THE nAVBAR */
+main [id^="verse-"] {
+	scroll-margin-top: 6rem;
+}
+
 #percent-stat {
 	font-size: 15px;
 }
