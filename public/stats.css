@@ -1,0 +1,57 @@
+#book-blocks {
+	width: 500px;
+	margin: auto;
+}
+
+.stat-block {
+	height: 50px;
+	width: 30px;
+	background-color: var(--color-bible-red);
+	display: inline-block;
+	border-radius: 2px;
+}
+
+.stat-block:hover {
+	scale: 108%;
+}
+
+.stat-block>div {
+	display: none;
+	position: absolute;
+	background-color: white;
+	padding: 6px 12px;
+	text-align: center;
+	translate: -40% 55px;
+	width: 180px;
+	left: 0;
+	flex-direction: column;
+	pointer-events: none;
+	filter: drop-shadow(0px 2px 2px var(--shadow-red-xl));
+	border-radius: 6px;
+}
+
+.stat-block:hover>div {
+	display: flex;
+}
+
+.stat-block>div>p,
+.stat-block>div>h3 {
+	margin: 0;
+	color: black;
+}
+
+.stat-block>div>p {
+	font-size: 12px;
+	margin: 3px 0;
+}
+
+.stat-block>div>h3 {
+	margin-top: 0;
+	color: var(--color-darkgold);
+}
+
+.stat-block>div>.subhead {
+	font-size: 10px;
+	margin-bottom: 0;
+	color: #686868;
+}

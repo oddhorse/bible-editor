@@ -1,0 +1,39 @@
+<!-- stats.ejs
+ by john trinh
+ stats view -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>OpenBible stats</title>
+	<link rel="stylesheet" href="/style.css">
+	<link rel="stylesheet" href="/stats.css">
+</head>
+
+<body>
+	<header>
+		<%- include('header', { currentPath }) %>
+	</header>
+	<main>
+
+		<section id="book-blocks">
+			<h2>BY THE BOOK</h2>
+			<% for( let i = 0; i < allBookEditStats.length; i++ ) { %>
+				<a href="/<%= allBookEditStats[i].book_id %>/1" class="stat-block" data-book-id="<%= allBookEditStats[i].book_id %>">
+					<div>
+						<p class="subhead">the book of</p>
+						<h3><%= allBookEditStats[i].book_name %></h3>
+						<p>is at <%= allBookEditStats[i].percent_edited %>%.</p>
+						<p><%= allBookEditStats[i].edited_count %> of <%= allBookEditStats[i].total_count %> verses edited</p>
+					</div>
+					
+				</a>
+			<% } %>
+		</section>
+		
+	</main>
+</body>
+
+</html>

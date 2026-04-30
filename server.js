@@ -55,6 +55,12 @@ app.get('/:book/:chapter', (req, res) => {
 	res.render('bible', { verses, bookName, bookID, chapterID, prev, next, allBooks, numChapters, chapterEditStats, currentPath, appearanceFont, appearanceSize, randUneditedChapter })
 })
 
+app.get('/stats', (req, res) => {
+	const currentPath = req.path
+	const allBookEditStats = bible.getAllBookEditCoverage()
+	res.render('stats', { currentPath, allBookEditStats })
+})
+
 app.post('/edit', (req, res) => {
 	bible.saveEdit(req.query.verseID, req.query.newVerse, req.ip)
 	res.send("success!")
@@ -63,7 +69,7 @@ app.post('/edit', (req, res) => {
 // listen on port
 app.listen(8008, () => {
 	console.log('server listening on port 8008!')
-
+	console.log(bible.getAllBookEditCoverage())
 	setInterval(() => {
 
 	}, 1000 * 60 * 60 * 24) // 24 hrs

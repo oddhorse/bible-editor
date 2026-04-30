@@ -15,7 +15,7 @@ main {
 }
 
 .hero .text-highlight {
-	color: #B29A00;
+	color: var(--color-darkgold);
 	font-weight: 550;
 }
 
@@ -30,7 +30,7 @@ main {
 	text-decoration: none;
 	display: inline-block;
 	/* inline elements don't scale */
-	filter: drop-shadow(0px 2px 2px #00000047);
+	filter: drop-shadow(0px 2px 2px var(--shadow-red-xl));
 	margin: 0 6px;
 
 	box-shadow: inset 0px 0px 15px 0px #ffffff4c;
@@ -41,24 +41,24 @@ main {
 }
 
 .hero .btn-set .main {
-	color: #FFD25B;
-	background-color: #B21E00;
+	color: var(--color-bible-gold);
+	background-color: var(--color-bible-red);
 }
 
 .hero .btn-set .alt {
-	color: #000;
-	background-color: #D9D9D9;
+	color: var(--color-black);
+	background-color: var(--color-gray-light);
 }
 
 
 #votd {
-	background-color: #B21E00;
+	background-color: var(--color-bible-red);
 	max-width: 550px;
 	padding: 12px;
-	border-radius: 20px;
+	border-radius: 24px;
 	margin: auto;
 	text-decoration: none;
-	filter: drop-shadow(0px 2px 4px #00000062);
+	filter: drop-shadow(0px 2px 4px var(--shadow-red-xl));
 
 	transition: scale 50ms;
 	will-change: scale;
@@ -71,15 +71,15 @@ main {
 
 #votd .quote {
 	font-size: 35px;
-	color: #F1D000;
+	color: var(--color-bible-gold);
 	font-family: "Crimson Text", serif;
 	margin: 16px 16px;
 }
 
 #votd .other {
-	color: #F7AFAF;
+	color: var(--color-accent-pink-light);
 }
 
 .wavy-text {
-	text-decoration: underline wavy #000 1px;
+	text-decoration: underline wavy var(--color-black) 1px;
 }

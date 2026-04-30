@@ -1,5 +1,38 @@
 @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
+:root {
+	/* neutrals */
+	--color-white: #FFF;
+	--color-black: #000;
+	--color-gray-dark: #676767;
+	--color-gray-medium: #636363;
+	--color-gray-light: #D9D9D9;
+
+	/* main colors */
+	--color-bible-red: #B21E00;
+	--color-darkgold: #B29A00;
+
+	/* accents */
+	--color-bible-gold: #F1D000;
+	--color-accent-pink-light: #F7AFAF;
+	/* phase this out */
+	--color-accent-magenta: #BD00AA;
+
+	/* shadows (black with alpha) */
+	--shadow-black-xs: #00000035;
+	--shadow-black-sm: #00000028;
+	--shadow-black-md: #00000032;
+	--shadow-black-lg: #0000003e;
+	--shadow-black-xl: #00000047;
+
+	/* Derive red shadows using color-mix */
+	--shadow-red-xs: color-mix(in srgb, var(--color-bible-red) 7%, transparent);
+	--shadow-red-sm: color-mix(in srgb, var(--color-bible-red) 16%, transparent);
+	--shadow-red-md: color-mix(in srgb, var(--color-bible-red) 20%, transparent);
+	--shadow-red-lg: color-mix(in srgb, var(--color-bible-red) 24%, transparent);
+	--shadow-red-xl: color-mix(in srgb, var(--color-bible-red) 28%, transparent);
+}
+
 body {
 	margin: 0;
 	font-family: 'Inter', sans-serif;
@@ -24,7 +57,7 @@ header {
 	grid-column-gap: 0px;
 	grid-row-gap: 0px;
 
-	background: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 100%);
+	background: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, var(--color-white) 100%);
 }
 
 header>* {
@@ -34,10 +67,10 @@ header>* {
 	justify-content: center;
 	text-align: center;
 
-	background-color: #FFF;
+	background-color: var(--color-white);
 
 	border-radius: 30px;
-	filter: drop-shadow(0px 2px 2px #00000032);
+	filter: drop-shadow(0px 2px 2px var(--shadow-red-md));
 
 	border-radius: 30px;
 }
@@ -61,7 +94,7 @@ header .links {
 
 header a {
 	text-decoration: none;
-	color: #676767;
+	color: var(--color-gray-dark);
 }
 
 header a .button-inner {
@@ -97,17 +130,17 @@ header .links .button-inner {
 
 header a[aria-current="page"] .button-inner,
 header a:hover .button-inner {
-	background-color: #FFF;
-	color: #000;
+	background-color: var(--color-white);
+	color: var(--color-black);
 }
 
 header a:hover .button-inner,
 header a[aria-current="page"]:hover .button-inner {
-	box-shadow: inset 0px 0px 7px 0px #0000003e;
+	box-shadow: inset 0px 0px 7px 0px var(--shadow-red-lg);
 }
 
 header a[aria-current="page"] .button-inner {
-	box-shadow: inset 0px 0px 6px 0px #00000026;
+	box-shadow: inset 0px 0px 6px 0px var(--shadow-red-xl);
 }
 
 header .openbible-logo:hover .button-inner {
@@ -126,9 +159,9 @@ header>nav {
 }
 
 header nav a[aria-current="page"] {
-	color: #000;
+	color: var(--color-black);
 	font-weight: 800;
-	text-decoration: underline solid #000 1.5px;
+	/* text-decoration: underline solid var(--color-black) 1px; */
 	/* cursor: pointer; */
 }
 
