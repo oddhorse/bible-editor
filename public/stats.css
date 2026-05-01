@@ -1,5 +1,20 @@
+main {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	max-width: 600px;
+	margin: 0 auto;
+	padding: 0 20px;
+
+	gap: 15px;
+}
+
+h2 {
+	text-align: left;
+}
+
 #book-blocks {
-	width: 500px;
+	/* width: 500px; */
 	margin: auto;
 }
 
@@ -54,4 +69,26 @@
 	font-size: 10px;
 	margin-bottom: 0;
 	color: #686868;
+}
+
+#recent-edits {
+	text-align: left;
+}
+
+#recent-edits a {
+	text-decoration: none;
+	color: black;
+}
+
+#recent-edits .which-verse {
+	font-size: 16px;
+	font-weight: 600;
+}
+
+#recent-edits .edit-date {
+	font-size: 12px;
+}
+
+#recent-edits .old-edit {
+	color: #7e7e7e;
 }

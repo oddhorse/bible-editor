@@ -194,3 +194,55 @@ export const getRandomUneditedChapter = () => {
 	return randomUneditedChaptersQuery.get()
 }
 
+const recentEditsQuery = db.prepare(`
+	SELECT
+		e.verse_id,
+		v.book_id,
+		b.name AS book_name,
+		v.chapter,
+		v.verse,
+		e.new_text,
+		COALESCE(prev.new_text, v.text) AS old_text,
+		e.edited_at
+	FROM verse_edits e
+	JOIN KJV_verses v ON v.id = e.verse_id
+	JOIN KJV_books b ON b.id = v.book_id
+	LEFT JOIN verse_edits prev ON prev.id = (
+		SELECT id
+		FROM verse_edits
+		WHERE verse_id = e.verse_id
+		  AND id < e.id
+		ORDER BY id DESC
+		LIMIT 1
+	)
+	ORDER BY e.edited_at DESC, e.id DESC
+	LIMIT @limit
+`)
+export const getRecentEdits = (limit = 50) => {
+	return recentEditsQuery.all({ limit })
+}
+
+const allEditsOfVerseQuery = db.prepare(`
+	SELECT verse_id, new_text, edited_at
+	FROM (
+		SELECT
+			0 AS sort_order,
+			e.verse_id,
+			e.new_text,
+			e.edited_at
+		FROM verse_edits e
+		WHERE e.verse_id = @verseID
+		UNION ALL
+		SELECT
+			1 AS sort_order,
+			v.id AS verse_id,
+			v.text AS new_text,
+			NULL AS edited_at
+		FROM KJV_verses v
+		WHERE v.id = @verseID
+	)
+	ORDER BY sort_order, edited_at DESC, verse_id DESC
+`)
+export const getAllEditsOfVerse = (verseID) => {
+	return allEditsOfVerseQuery.all({ verseID })
+}

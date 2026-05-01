@@ -58,7 +58,8 @@ app.get('/:book/:chapter', (req, res) => {
 app.get('/stats', (req, res) => {
 	const currentPath = req.path
 	const allBookEditStats = bible.getAllBookEditCoverage()
-	res.render('stats', { currentPath, allBookEditStats })
+	const recentEdits = bible.getRecentEdits(5)
+	res.render('stats', { currentPath, allBookEditStats, recentEdits })
 })
 
 app.post('/edit', (req, res) => {
@@ -69,8 +70,8 @@ app.post('/edit', (req, res) => {
 // listen on port
 app.listen(8008, () => {
 	console.log('server listening on port 8008!')
-	console.log(bible.getAllBookEditCoverage())
+	console.log(bible.getRecentEdits(5))
+	console.log(`${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
 	setInterval(() => {
-
 	}, 1000 * 60 * 60 * 24) // 24 hrs
 })
