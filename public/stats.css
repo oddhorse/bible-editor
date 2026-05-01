@@ -87,6 +87,37 @@ h2 {
 
 #recent-edits .edit-date {
 	font-size: 12px;
+	color: #878787;
+}
+
+#recent-edits .recent-edit {
+	display: block;
+	margin: 10px 0;
+}
+
+#recent-edits .title {
+	margin: 3px 0;
+}
+
+#recent-edits .edit {
+	display: table;
+	font-family: 'Crimson Text', serif;
+	margin: 0;
+}
+
+#recent-edits .edit .part-added,
+#recent-edits .edit .part-removed {
+	font-weight: 500;
+}
+
+#recent-edits .edit .part-added {
+	color: rgb(0, 222, 15);
+	/* text-decoration: line-through solid red 2px; */
+}
+
+#recent-edits .edit .part-removed {
+	color: red;
+	text-decoration: line-through solid red 2px;
 }
 
 #recent-edits .old-edit {

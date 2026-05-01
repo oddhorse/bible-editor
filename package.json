@@ -40,6 +40,7 @@
 		"deep-extend": "^0.6.0",
 		"depd": "^2.0.0",
 		"detect-libc": "^2.1.2",
+		"diff": "^9.0.0",
 		"dunder-proto": "^1.0.1",
 		"ee-first": "^1.1.1",
 		"ejs": "^5.0.1",

@@ -6,6 +6,7 @@
  */
 import Database from "better-sqlite3"
 import { getRandomIntBetween } from "./util.js"
+import { diffWords } from 'diff'
 
 const db = new Database('./data/KJV.db')
 
@@ -219,7 +220,12 @@ const recentEditsQuery = db.prepare(`
 	LIMIT @limit
 `)
 export const getRecentEdits = (limit = 50) => {
-	return recentEditsQuery.all({ limit })
+	const edits = recentEditsQuery.all({ limit })
+	for (const edit of edits) {
+		const diff = diffWords(edit.old_text, edit.new_text)
+		edit.diff = diff
+	}
+	return edits
 }
 
 const allEditsOfVerseQuery = db.prepare(`

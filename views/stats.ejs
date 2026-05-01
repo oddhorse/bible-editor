@@ -37,8 +37,17 @@
 			<% for( let i = 0; i < recentEdits.length; i++ ) { %>
 				<a href="/<%= recentEdits[i].book_id %>/<%= recentEdits[i].chapter %>#verse-<%= recentEdits[i].verse_id %>" class="recent-edit">
 					<p class="title"><span class="which-verse"><%= recentEdits[i].book_name %> <%= recentEdits[i].chapter %>:<%= recentEdits[i].verse %></span> <span class="edit-date"><%= new Date(recentEdits[i].edited_at).toLocaleDateString() %> <%= new Date(recentEdits[i].edited_at).toLocaleTimeString() %></span></p>
-					<p class="new-edit"><%= recentEdits[i].new_text %></p>
-					<p class="old-edit"><%= recentEdits[i].old_text %></p>
+					<p class="edit"><% recentEdits[i].diff.forEach(part => { %>
+					<% if (part.added) { %>
+					  	<span class="part-added"><%= part.value %></span>
+					<% } else if (part.removed) {%>
+						<span class="part-removed"><%= part.value %></span>
+					<% } else { %>
+						<span class="part-unchanged"><%= part.value %></span>
+					<% } %>
+					<% }) %></p>
+					<!-- <p class="new-edit"><%= recentEdits[i].new_text %></p> -->
+					<!-- <p class="old-edit"><%= recentEdits[i].old_text %></p> -->
 				</a>
 				
 			<% } %>
