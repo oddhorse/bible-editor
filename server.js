@@ -63,7 +63,21 @@ app.get('/stats', (req, res) => {
 })
 
 app.post('/edit', (req, res) => {
-	bible.saveEdit(req.query.verseID, req.query.newVerse, req.ip)
+	// validate the submitted verse text is not blank or whitespace-only
+	const newVerse = req.query.newVerse?.trim()
+	const verseID = req.query.verseID
+
+	if (!verseID) {
+		res.status(400).send("error: missing verseID")
+		return
+	}
+
+	if (!newVerse || newVerse.length === 0) {
+		res.status(400).send("error: verse text cannot be blank")
+		return
+	}
+
+	bible.saveEdit(verseID, newVerse, req.ip)
 	res.send("success!")
 })
 

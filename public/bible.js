@@ -27,23 +27,41 @@ const enableVerseEdit = (verseEl) => {
  */
 const disableVerseEdit = async (verseEl) => {
 	const origText = verseEl.dataset.origText
+	const submittedText = verseEl.innerText.trim()
+	const origTextTrimmed = origText.trim()
+
 	console.log(`began: "${origText}"
 		submitted: "${verseEl.innerText}"`)
 
 	verseEl.contentEditable = false
-	if (verseEl.innerText === origText) {
+
+	// no change made to text
+	if (submittedText === origTextTrimmed) {
 		console.log("no change made in text... not submitting to server!")
 		return
 	}
-	if (verseEl.innerText === "") {
+
+	// text is blank or only whitespace
+	if (submittedText === "") {
+		console.log("text is blank... reverting to original!")
 		verseEl.innerText = origText
 		return
 	}
-	const response = await submitEdit(verseEl.dataset.verseId, verseEl.innerText)
-	const okay = response.ok
+
+	// submit to server
+	const response = await submitEdit(verseEl.dataset.verseId, submittedText)
 	const text = await response.text()
-	if (response.ok) verseEl.dataset.isEdited = "true"
-	console.log(text)
+
+	if (response.ok) {
+		// server accepted the edit
+		verseEl.dataset.isEdited = "true"
+		console.log("edit submitted successfully")
+	} else {
+		// server rejected the edit
+		console.error(`edit rejected: ${text}`)
+		verseEl.innerText = origText
+		alert(`Edit failed: ${text}`)
+	}
 }
 
 const isCurrentlyEditing = () => {
