@@ -16,9 +16,16 @@ npm start
 
 - [ ] add cloudflare turnstile
 - [ ] word block list (density-based)
+- [ ] add user message pop up
+- [ ] experiment with percentage-based editing: if more than 50%??? of a verse is changed, it isn't let through
+- [ ] add john 1:1 message
+- [ ] add ui signal for how to edit the page
+- [ ] finish mobile styling
+- [ ] fix bottom previous-next buttons
 - [ ] add rate limit
 - [ ] add stats pages
 - [ ] add ui clues to promote editing the verses
+- [ ] add a css scale helper that grows items by a fixed number of pixels
 - [ ] add home page with verse of the day
 - [ ] add random unedited chapter button
 - [ ] add per-verse stats

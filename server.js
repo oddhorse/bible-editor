@@ -84,7 +84,6 @@ app.post('/edit', (req, res) => {
 // listen on port
 app.listen(8008, () => {
 	console.log('server listening on port 8008!')
-	console.log(bible.getRecentEdits(5))
 	console.log(`${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`)
 	setInterval(() => {
 	}, 1000 * 60 * 60 * 24) // 24 hrs

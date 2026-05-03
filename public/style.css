@@ -38,6 +38,11 @@ body {
 	font-family: 'Inter', sans-serif;
 }
 
+main {
+	max-width: 100dvw;
+	box-sizing: border-box;
+}
+
 /* -----[NAVBAR]----- */
 header {
 	/* width: 100dvw; */

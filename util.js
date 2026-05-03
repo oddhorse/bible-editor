@@ -17,3 +17,8 @@ export const getDatePretty = (date = new Date()) => date.toLocaleDateString('en-
 	day: 'numeric',
 	year: 'numeric',
 })
+
+export const roundToDec = (num, decs = 1) => {
+	const exp = Math.pow(10, decs)
+	return Math.round(num * exp) / exp
+}

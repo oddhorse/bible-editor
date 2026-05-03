@@ -4,9 +4,11 @@
  *
  * all db queries
  */
+
 import Database from "better-sqlite3"
-import { getRandomIntBetween } from "./util.js"
+import { getRandomIntBetween, roundToDec } from "./util.js"
 import { diffWords } from 'diff'
+import { regexp as profanity } from 'badwords-list'
 
 const db = new Database('./data/KJV.db')
 
@@ -19,6 +21,16 @@ const verseQuery = db.prepare(`
 export const getVerses = (bookID, chapterID) => {
 	return verseQuery.all(bookID, chapterID)
 }
+
+const verseIDQuery = db.prepare(`
+    SELECT text
+    FROM KJV_verses_live
+    WHERE id = ?
+`)
+export const getVerseText = (verseID) => {
+	return verseIDQuery.get(verseID).text
+}
+
 const firstVerseQuery = db.prepare(`
 	SELECT MIN(id) AS id
 	FROM KJV_verses
@@ -251,4 +263,48 @@ const allEditsOfVerseQuery = db.prepare(`
 `)
 export const getAllEditsOfVerse = (verseID) => {
 	return allEditsOfVerseQuery.all({ verseID })
+}
+
+export const computePercentEdited = (oldVerse, newVerse) => {
+	const diff = diffWords(oldVerse, newVerse)
+	let score = 0
+	let total = 0
+	for (let i = 0; i < diff.length; i++) {
+		const part = diff[i]
+		total += diff[i].count // add every count to total
+		// if removal, add a point for diff
+		if (diff[i].removed) score += diff[i].count
+		// if adddition...
+		else if (diff[i].added) {
+			// add score as well, to start
+			score += diff[i].count
+			// if prev chunk was a removal and this chunk is an addition...
+			// this means this involves a replacement!
+			if (i > 0 && diff[i - 1].removed) {
+				const remScore = diff[i - 1].count
+				const addScore = diff[i].count
+				// whichever diff was smaller is the amount we've doubled up
+				// (if you take five and add two, you've replaced two words and removed three)
+				// (if you take three and add seven, you've replaced three words and added four)
+				if (remScore >= addScore) {
+					score -= addScore
+					total -= addScore
+				} else {
+					score -= remScore
+					total -= remScore
+				}
+			}
+		}
+	}
+	const perc = roundToDec(score / total * 100)
+	// console.log(`score: ${score}; total: ${total}; final percent: ${perc}`)
+	return perc
+}
+
+
+export const computePercentProfanity = (str) => {
+	const total = str.split(' ').length
+	console.log(str.match(profanity))
+	const matches = str.match(profanity).length
+	return roundToDec(matches / total * 100)
 }
