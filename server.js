@@ -31,7 +31,8 @@ app.get('/', (req, res) => {
 	const votdBookName = bible.getBookName(votd.book_id)
 	const prettyDate = getDatePretty()
 	const randUneditedChapter = bible.getRandomUneditedChapter()
-	res.render('index', { votd, votdBookName, prettyDate, randUneditedChapter, currentPath })
+	const overallStats = bible.getOverallStats()
+	res.render('index', { votd, votdBookName, prettyDate, randUneditedChapter, currentPath, overallStats })
 })
 
 // main route for getting chapters
@@ -60,6 +61,11 @@ app.get('/stats', (req, res) => {
 	const allBookEditStats = bible.getAllBookEditCoverage()
 	const recentEdits = bible.getRecentEdits(5)
 	res.render('stats', { currentPath, allBookEditStats, recentEdits })
+})
+
+app.get('/patterns', (req, res) => {
+	const currentPath = req.path
+	res.render('patterns', { currentPath })
 })
 
 app.post('/edit', (req, res) => {

@@ -44,10 +44,6 @@ main [id^="verse-"] {
 	color: var(--color-accent-magenta);
 }
 
-.verse-text:hover {
-	/* color: #ff7bb6 */
-}
-
 .verse-text:focus-visible {
 	outline-width: 2px;
 	outline-style: solid;
@@ -107,35 +103,38 @@ main [id^="verse-"] {
 	justify-content: center;
 	text-align: center;
 	border-radius: 30px;
+
+	color: black;
 	background-color: var(--color-white);
 	filter: drop-shadow(0px 2px 2px var(--shadow-red-xl));
 
+}
+
+#wing-nav a svg path {
+	opacity: 55%;
+	transition: all 60ms;
+}
+
+#wing-nav a:hover svg path {
+	opacity: 100%;
 }
 
 #wing-nav a {
 	pointer-events: all;
 	text-decoration: none;
 	font-size: 45px;
-	color: black;
-	opacity: 0.55;
 	transition: all 60ms;
 	/* margin: 20px; */
 }
 
 #wing-nav a:hover {
 	scale: 105%;
-	opacity: 1;
 }
 
 /* when there's no nav available, element stays but is hidden and disabled */
 #wing-nav a.disabled {
 	opacity: 0;
 	pointer-events: none;
-}
-
-/* https://cssgradient.io */
-#wing-nav-next:hover {
-	/* background: linear-gradient(270deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0) 100%); */
 }
 
 #wing-nav-next svg {
@@ -145,10 +144,6 @@ main [id^="verse-"] {
 #wing-nav-next svg path {
 	rotate: 180deg;
 	transform-origin: 50% 50%;
-}
-
-#wing-nav-prev:hover {
-	/* background: linear-gradient(90deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0) 100%); */
 }
 
 #wing-nav-prev svg {
@@ -188,14 +183,11 @@ main [id^="verse-"] {
 
 #book-select,
 #chapter-select {
-	box-sizing: border-box;
 	height: 30px;
 	appearance: none;
 	padding: 6px 10px;
 	font-size: 13px;
 	font-weight: 500;
-	background-color: #fff;
-	border: 1.5px solid rgba(0, 0, 0, 0.109);
 	color: var(--color-gray-medium);
 	cursor: pointer;
 	font-family: 'Inter', sans-serif;
@@ -211,19 +203,9 @@ main [id^="verse-"] {
 }
 
 #appearance-btn {
-	display: flex;
 	position: relative;
-	box-sizing: border-box;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
 	height: 30px;
 	width: 30px;
-	border: 1.5px solid rgba(0, 0, 0, 0.109);
-	filter: drop-shadow(0px 0.5px 1px var(--shadow-red-xs));
-	background-color: #fff;
-	border-radius: 30px;
-
 	cursor: pointer;
 }
 
@@ -232,9 +214,6 @@ main [id^="verse-"] {
 	text-align: left;
 	position: absolute;
 	top: 50px;
-
-	background-color: #FFF;
-	border-radius: 15px;
 	padding: 9px 18px;
 }
 
@@ -272,21 +251,11 @@ main [id^="verse-"] {
 }
 
 #rand-unedited-btn {
-	display: flex;
 	position: relative;
-	box-sizing: border-box;
-	align-items: center;
-	justify-content: center;
-	text-align: center;
 	height: 30px;
 	/* width: 30px; */
 	text-wrap-mode: nowrap;
 	padding: 0 10px;
-	border: 1.5px solid rgba(0, 0, 0, 0.109);
-	filter: drop-shadow(0px 0.5px 1px #0000000c);
-	background-color: #fff;
-	border-radius: 30px;
-
 	cursor: pointer;
 }
 
@@ -350,9 +319,6 @@ body[data-appearance-size="lg"] .chapter-text,
 #verse-stats-detail {
 	display: block;
 	text-align: left;
-
-	background-color: #FFF;
-	border-radius: 15px;
 	padding: 9px 18px;
 }
 
@@ -378,24 +344,6 @@ body[data-appearance-size="lg"] .chapter-text,
 		top: unset;
 		bottom: 0;
 		height: fit-content;
-	}
-
-	#wing-nav a {
-		font-size: 36px;
-		height: 50px;
-		width: 50px;
-	}
-
-	#wing-nav-prev:hover,
-	#wing-nav-next:hover {
-		background: unset;
-	}
-
-	#wing-nav a p {
-		margin: 0;
-		height: 50px;
-		width: 50px;
-		text-align: center;
 	}
 
 	header {

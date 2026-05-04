@@ -31,7 +31,7 @@
 			<p class="quote">"<%= votd.text %>"</p>
 			<p class="other">- <%= votdBookName %> <%= votd.chapter %>:<%= votd.verse %>, <i>People's Open Bible</i></p>
 		</a>
-		<p class="stat-line"><span class="wavy-text">Together</span>, we have written <i>25 verses</i> across <i>5 chapters</i> of <i>2 books</i> in the Bible.</p>
+		<p class="stat-line"><span class="wavy-text">Together</span>, we have written <i><%= overallStats.edited_verses %> verses</i> across <i><%= overallStats.edited_chapters %> chapters</i> of <i><%= overallStats.edited_books %> books</i> in the Bible.</p>
 	</main>
 </body>
 

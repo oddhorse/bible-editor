@@ -176,6 +176,17 @@ export const getAllBookEditCoverage = () => {
 	return stats
 }
 
+const overallStatsQuery = db.prepare(`
+	SELECT
+		SUM(CASE WHEN is_edited = 1 THEN 1 ELSE 0 END) AS edited_verses,
+		(SELECT COUNT(DISTINCT book_id) FROM KJV_verses_live WHERE is_edited = 1) AS edited_books,
+		(SELECT COUNT(DISTINCT chapter) FROM KJV_verses_live WHERE is_edited = 1) AS edited_chapters
+	FROM KJV_verses_live
+`)
+export const getOverallStats = () => {
+	return overallStatsQuery.get()
+}
+
 const allCurrentEditedVersesQuery = db.prepare(`
 	SELECT id, book_id, chapter, verse, text
 	FROM KJV_verses_live

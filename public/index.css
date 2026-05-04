@@ -10,7 +10,7 @@ main {
 }
 
 .hero .tagline {
-	font-size: 35px;
+	font-size: 32px;
 	margin-bottom: 8px;
 }
 
@@ -70,7 +70,7 @@ main {
 
 
 #votd .quote {
-	font-size: 35px;
+	font-size: 32px;
 	color: var(--color-bible-gold);
 	font-family: "Crimson Text", serif;
 	margin: 16px 16px;
@@ -83,3 +83,5 @@ main {
 .wavy-text {
 	text-decoration: underline wavy var(--color-black) 1px;
 }
+
+@media (max-width: 600px) {}

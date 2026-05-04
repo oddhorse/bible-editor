@@ -20,14 +20,14 @@
 		<nav id="reader-nav">
 			<div id="dropdowns">
 
-				<select name="book" id="book-select" class="cursor-hover-effect">
+				<select name="book" id="book-select" class="cursor-hover-effect surface-pill">
 					<% allBooks.forEach(book=> { %>
 						<option value="<%= book.id %>" <% if (book.id===bookID) { %>selected<% } %>>
 							<%= book.name %>
 						</option>
 					<% }) %>
 				</select>
-				<select name="chapter" id="chapter-select" class="cursor-hover-effect">
+				<select name="chapter" id="chapter-select" class="cursor-hover-effect surface-pill">
 					<% for( let i=1; i <=numChapters; i++ ) { %>
 						<option value="<%= i %>" <% if (i===chapterID) { %>selected<% } %>>
 							<%= i %>
@@ -35,11 +35,11 @@
 					<% } %>
 				</select>
 			</div>
-			<a id="appearance-btn" class="cursor-hover-effect">
+			<a id="appearance-btn" class="cursor-hover-effect surface-pill surface-center surface-shadow-soft">
 				Aa
 				
 			</a>
-			<section id="appearance-panel" hidden>
+			<section id="appearance-panel" class="surface-card" hidden>
 					<p>font:</p>
 					<optgroup id="appr-grp-font">
 						<option value="sans" id="appr-font-sans" aria-selected="false">Aa</option>
@@ -52,14 +52,14 @@
 						<option value="lg" id="appr-sz-lg" aria-selected="false">large</option>
 					</optgroup>
 			</section>
-			<a href="/<%= randUneditedChapter.book_id %>/<%= randUneditedChapter.chapter %>" id="rand-unedited-btn" class="cursor-hover-effect">random</a>
+			<a href="/<%= randUneditedChapter.book_id %>/<%= randUneditedChapter.chapter %>" id="rand-unedited-btn" class="cursor-hover-effect surface-pill surface-center surface-shadow-faint">random</a>
 		</nav>
 	</header>
 	
 	<main>
 		<h1 class="chapter-title"><%= bookName %> <%= chapterID %></h1>
 		<div id="verse-stats-container"><p id="verse-stats-clickme">&blacktriangledown; see verse stats &blacktriangledown;</p>
-			<section id="verse-stats-detail" hidden>
+			<section id="verse-stats-detail" class="surface-card" hidden>
 				<p id="percent-stat">progress: <span class="number"><%= chapterEditStats.percent_edited %>%</span></p>
 			</section>
 			
