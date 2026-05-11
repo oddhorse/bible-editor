@@ -41,20 +41,27 @@ const initTurnstile = () => {
 		return
 	}
 
-	turnstileWidgetId = window.turnstile.render('#turnstile-widget', {
-		sitekey: turnstileSiteKey,
-		theme: 'light',
-		size: 'normal',
-		callback: (token) => {
-			turnstileResponseToken = token
-		},
-		'expired-callback': () => {
-			turnstileResponseToken = ''
-		},
-		'error-callback': () => {
-			turnstileResponseToken = ''
-		},
-	})
+	console.log('initTurnstile:', { sitekey: turnstileSiteKey, widgetContainer: !!widgetContainer, turnstilePresent: !!window.turnstile, attempts: _turnstileInitAttempts })
+
+	try {
+		turnstileWidgetId = window.turnstile.render('#turnstile-widget', {
+			sitekey: turnstileSiteKey,
+			theme: 'light',
+			size: 'normal',
+			callback: (token) => {
+				turnstileResponseToken = token
+			},
+			'expired-callback': () => {
+				turnstileResponseToken = ''
+			},
+			'error-callback': () => {
+				turnstileResponseToken = ''
+			},
+		})
+		console.log('turnstile.render returned widgetId=', turnstileWidgetId)
+	} catch (err) {
+		console.error('turnstile.render failed:', err)
+	}
 }
 
 const enableVerseEdit = (verseEl) => {
