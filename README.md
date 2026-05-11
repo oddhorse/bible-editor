@@ -12,18 +12,9 @@ To run:
 npm start
 ```
 
-## turnstile setup
-
-Set these environment variables to enable Cloudflare Turnstile on edit submissions:
-
-- `TURNSTILE_SITE_KEY`
-- `TURNSTILE_SECRET_KEY`
-
-If both are unset, the app keeps working without the widget.
-
 ## things to do
 
-- [x] add cloudflare turnstile
+- [ ] add cloudflare turnstile
 - [ ] word block list (density-based)
 - [ ] add user message pop up
 - [ ] experiment with percentage-based editing: if more than 50%??? of a verse is changed, it isn't let through

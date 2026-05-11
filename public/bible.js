@@ -4,67 +4,15 @@
  * bible reader client side scripting
  */
 
-console.log('bible.js loaded')
-
-
-let turnstileWidgetId = null
-let turnstileResponseToken = ''
-let turnstileSiteKey = ''
+// client script (Turnstile removed; kept core editing flow)
 
 const submitEdit = async (verseID, newVerse) => {
 	const params = new URLSearchParams({
 		verseID: verseID,
 		newVerse: newVerse,
-		...(turnstileResponseToken ? { 'cf-turnstile-response': turnstileResponseToken } : {}),
 	})
 	const url = '/edit?' + params
-	return await fetch(url, { method: "POST" })
-}
-
-const clearTurnstileResponse = () => {
-	turnstileResponseToken = ''
-	if (turnstileWidgetId !== null && window.turnstile) {
-		window.turnstile.reset(turnstileWidgetId)
-	}
-}
-
-
-let _turnstileInitAttempts = 0
-const initTurnstile = () => {
-	turnstileSiteKey = document.body.dataset.turnstileSitekey || ''
-	const widgetContainer = document.getElementById('turnstile-widget')
-	if (!turnstileSiteKey || !widgetContainer) return
-
-	// If the library hasn't loaded yet, retry a few times with a small backoff
-	if (!window.turnstile) {
-		_turnstileInitAttempts += 1
-		if (_turnstileInitAttempts <= 8) {
-			setTimeout(initTurnstile, 250 * _turnstileInitAttempts)
-		}
-		return
-	}
-
-	console.log('initTurnstile:', { sitekey: turnstileSiteKey, widgetContainer: !!widgetContainer, turnstilePresent: !!window.turnstile, attempts: _turnstileInitAttempts })
-
-	try {
-		turnstileWidgetId = window.turnstile.render('#turnstile-widget', {
-			sitekey: turnstileSiteKey,
-			theme: 'light',
-			size: 'normal',
-			callback: (token) => {
-				turnstileResponseToken = token
-			},
-			'expired-callback': () => {
-				turnstileResponseToken = ''
-			},
-			'error-callback': () => {
-				turnstileResponseToken = ''
-			},
-		})
-		console.log('turnstile.render returned widgetId=', turnstileWidgetId)
-	} catch (err) {
-		console.error('turnstile.render failed:', err)
-	}
+	return await fetch(url, { method: 'POST' })
 }
 
 const enableVerseEdit = (verseEl) => {
@@ -185,10 +133,7 @@ const validateAppearanceFontOptions = (val) => {
 
 
 window.addEventListener('load', () => {
-	console.log('window.load fired', { bodySiteKey: document.body?.dataset?.turnstileSitekey })
-	initTurnstile()
-
-	console.log('after initTurnstile call (load handler)')
+	// Turnstile client has been removed; keep normal load initialization
 
 	// set user-selected choices in appearance panel
 	validateAppearanceFontOptions(document.body.dataset.appearanceFont)
