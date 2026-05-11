@@ -356,6 +356,31 @@ body[data-appearance-size="lg"] .chapter-text,
 	display: none;
 }
 
+/* -----[TOAST]----- */
+#toast {
+	z-index: 20;
+	position: fixed;
+	opacity: 0;
+	right: 20px;
+	bottom: 20px;
+
+
+
+
+
+	filter: drop-shadow(0px 2px 2px var(--shadow-red-xl));
+	transition: opacity 0.5s;
+}
+
+#toast-msg {
+	background-color: var(--color-bible-red);
+	color: var(--color-bible-gold);
+	padding: 6px 12px;
+	margin: 0;
+	border-radius: 30px;
+}
+
+
 @media (max-width: 600px) {
 
 	/* tighten layout on small screens */

@@ -122,6 +122,21 @@ const validateAppearanceFontOptions = (val) => {
 	}
 }
 
+const displayError = (msg) => {
+	const toastEl = document.getElementById('toast')
+	const toastMsgEl = document.getElementById('toast-msg')
+	toastEl.hidden = false
+	toastEl.style.opacity = 1
+	toastMsgEl.innerText = msg
+	setTimeout(() => {
+		toastEl.style.opacity = 0
+		setTimeout(() => {
+			toastEl.hidden = true
+			toastMsgEl.innerText = ""
+		}, 500)
+	}, 3000)
+}
+
 
 
 window.addEventListener('load', () => {
