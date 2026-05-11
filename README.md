@@ -21,7 +21,6 @@ npm start
 - [ ] add ui signal for how to edit the page
 - [ ] finish mobile styling
 - [ ] fix bottom previous-next buttons
-- [ ] add rate limit
 - [ ] add stats pages
 - [ ] add ui clues to promote editing the verses
 - [ ] add a css scale helper that grows items by a fixed number of pixels

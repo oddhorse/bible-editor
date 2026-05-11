@@ -10,6 +10,9 @@ import Express from 'express'
 import * as bible from './db.js'
 import { getDatePretty, computePercentProfanity } from './util.js'
 import cookieParser from 'cookie-parser'
+import rateLimit from 'express-rate-limit'
+import { ipKeyGenerator } from 'express-rate-limit'
+import { randomUUID } from 'node:crypto'
 import 'dotenv/config'
 import turnstileMiddleware from './middleware/turnstile.js'
 
@@ -22,6 +25,45 @@ app.use(Express.json()) // needed for pushing json data in a post request https:
 app.use(Express.urlencoded({ extended: true }))
 app.use(cookieParser())
 app.set('view engine', 'ejs')
+
+const ensureAnonIdCookie = (req, res, next) => {
+	if (!req.cookies.anon_id) {
+		const anonID = randomUUID()
+		res.cookie('anon_id', anonID, {
+			path: '/',
+			maxAge: 1000 * 60 * 60 * 24 * 365,
+			httpOnly: true,
+			sameSite: 'lax',
+		})
+		req.cookies.anon_id = anonID
+	}
+	next()
+}
+
+const editLimiter = rateLimit({
+	windowMs: 1000 * 60,
+	max: 5,
+	standardHeaders: true,
+	legacyHeaders: false,
+	keyGenerator: (req) => {
+		const ip = ipKeyGenerator(req.ip || 'unknown-ip')
+		const anonID = req.cookies?.anon_id || 'unknown-anon'
+		return `${ip}:${anonID}`
+	},
+	handler: (req, res) => {
+		const resetTime = req.rateLimit?.resetTime
+		const retryAfterSec = resetTime
+			? Math.max(1, Math.ceil((resetTime.getTime() - Date.now()) / 1000))
+			: 60
+		res.set('Retry-After', String(retryAfterSec))
+		console.warn(`[rate-limit] blocked key=${req.rateLimit?.key || 'unknown'} used=${req.rateLimit?.used || 'n/a'} remaining=${req.rateLimit?.remaining || 0} retry_after=${retryAfterSec}s`)
+		res.status(429).json({
+			error: 'rate_limited',
+			retry_after: retryAfterSec,
+			message: 'Too many edit submissions. Please try again shortly.',
+		})
+	},
+})
 
 // -----[ROUTES]-----
 
@@ -70,7 +112,7 @@ app.get('/patterns', (req, res) => {
 	res.render('patterns', { currentPath })
 })
 
-app.post('/edit', (req, res) => {
+app.post('/edit', ensureAnonIdCookie, editLimiter, (req, res) => {
 	// validate the submitted verse text is not blank or whitespace-only
 	const newVerse = req.query.newVerse?.trim()
 	const verseID = req.query.verseID
