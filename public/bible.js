@@ -4,13 +4,47 @@
  * bible reader client side scripting
  */
 
+let turnstileWidgetId = null
+let turnstileResponseToken = ''
+let turnstileSiteKey = ''
+
 const submitEdit = async (verseID, newVerse) => {
 	const params = new URLSearchParams({
 		verseID: verseID,
 		newVerse: newVerse,
+		...(turnstileResponseToken ? { 'cf-turnstile-response': turnstileResponseToken } : {}),
 	})
 	const url = '/edit?' + params
 	return await fetch(url, { method: "POST" })
+}
+
+const clearTurnstileResponse = () => {
+	turnstileResponseToken = ''
+	if (turnstileWidgetId !== null && window.turnstile) {
+		window.turnstile.reset(turnstileWidgetId)
+	}
+}
+
+const initTurnstile = () => {
+	turnstileSiteKey = document.body.dataset.turnstileSitekey || ''
+	if (!turnstileSiteKey || !window.turnstile || !document.getElementById('turnstile-widget')) {
+		return
+	}
+
+	turnstileWidgetId = window.turnstile.render('#turnstile-widget', {
+		sitekey: turnstileSiteKey,
+		theme: 'light',
+		size: 'normal',
+		callback: (token) => {
+			turnstileResponseToken = token
+		},
+		'expired-callback': () => {
+			turnstileResponseToken = ''
+		},
+		'error-callback': () => {
+			turnstileResponseToken = ''
+		},
+	})
 }
 
 const enableVerseEdit = (verseEl) => {
@@ -26,9 +60,14 @@ const enableVerseEdit = (verseEl) => {
  * @returns 
  */
 const disableVerseEdit = async (verseEl) => {
+	if (verseEl.dataset.submitState === 'submitting') {
+		return
+	}
+
 	const origText = verseEl.dataset.origText
 	const submittedText = verseEl.innerText.trim()
 	const origTextTrimmed = origText.trim()
+	verseEl.dataset.submitState = 'submitting'
 
 	console.log(`began: "${origText}"
 		submitted: "${verseEl.innerText}"`)
@@ -38,6 +77,7 @@ const disableVerseEdit = async (verseEl) => {
 	// no change made to text
 	if (submittedText === origTextTrimmed) {
 		console.log("no change made in text... not submitting to server!")
+		verseEl.dataset.submitState = ''
 		return
 	}
 
@@ -45,22 +85,35 @@ const disableVerseEdit = async (verseEl) => {
 	if (submittedText === "") {
 		console.log("text is blank... reverting to original!")
 		verseEl.innerText = origText
+		verseEl.dataset.submitState = ''
+		return
+	}
+
+	if (turnstileSiteKey && !turnstileResponseToken) {
+		alert('Please complete the Turnstile challenge before saving.')
+		verseEl.innerText = origText
+		verseEl.dataset.submitState = ''
 		return
 	}
 
 	// submit to server
-	const response = await submitEdit(verseEl.dataset.verseId, submittedText)
-	const text = await response.text()
+	try {
+		const response = await submitEdit(verseEl.dataset.verseId, submittedText)
+		const text = await response.text()
 
-	if (response.ok) {
-		// server accepted the edit
-		verseEl.dataset.isEdited = "true"
-		console.log("edit submitted successfully")
-	} else {
-		// server rejected the edit
-		console.error(`edit rejected: ${text}`)
-		verseEl.innerText = origText
-		alert(`Edit failed: ${text}`)
+		if (response.ok) {
+			// server accepted the edit
+			verseEl.dataset.isEdited = "true"
+			console.log("edit submitted successfully")
+		} else {
+			// server rejected the edit
+			console.error(`edit rejected: ${text}`)
+			verseEl.innerText = origText
+			alert(`Edit failed: ${text}`)
+		}
+	} finally {
+		verseEl.dataset.submitState = ''
+		clearTurnstileResponse()
 	}
 }
 
@@ -112,6 +165,8 @@ const validateAppearanceFontOptions = (val) => {
 
 
 window.addEventListener('load', () => {
+	initTurnstile()
+
 	// set user-selected choices in appearance panel
 	validateAppearanceFontOptions(document.body.dataset.appearanceFont)
 	validateAppearanceSizeOptions(document.body.dataset.appearanceSize)
@@ -167,7 +222,7 @@ window.addEventListener('load', () => {
 	document.addEventListener("click", (ev) => {
 		const apprBtn = ev.target.closest("#appearance-btn")
 		const apprPnlQ = ev.target.closest("#appearance-panel")
-		if (apprBtn) apprPanel.hidden = false
+		if (apprBtn) apprPanel.toggleAttribute("hidden")
 		else if (!apprPnlQ) apprPanel.hidden = true
 		else if (apprPnlQ) {
 			const apprFontSerif = ev.target.closest("#appr-font-serif")

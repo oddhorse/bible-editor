@@ -11,10 +11,14 @@
 	</title>
 	<link rel="stylesheet" href="/style.css">
 	<link rel="stylesheet" href="/bible.css">
+	<% if (turnstileSiteKey) { %>
+		<link rel="preconnect" href="https://challenges.cloudflare.com">
+		<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+	<% } %>
 	<script src="/bible.js"></script>
 </head>
 
-<body data-book-id="<%= bookID %>" data-chapter-id="<%= chapterID %>" data-appearance-font="<%= appearanceFont %>" data-appearance-size="<%= appearanceSize %>">
+<body data-book-id="<%= bookID %>" data-chapter-id="<%= chapterID %>" data-appearance-font="<%= appearanceFont %>" data-appearance-size="<%= appearanceSize %>" data-turnstile-sitekey="<%= turnstileSiteKey %>">
 	<header>
 		<%- include('header', { currentPath }) %>
 		<nav id="reader-nav">
@@ -64,6 +68,12 @@
 			</section>
 			
 		</div>
+		<% if (turnstileSiteKey) { %>
+			<section id="turnstile-guard" class="surface-card">
+				<p class="turnstile-copy">verify once before saving edits</p>
+				<div id="turnstile-widget"></div>
+			</section>
+		<% } %>
 		
 		<p class="chapter-text">
 			<% verses.forEach(v=> { %>

@@ -10,6 +10,42 @@ import Express from 'express'
 import * as bible from './db.js'
 import { getDatePretty } from './util.js'
 import cookieParser from 'cookie-parser'
+import 'dotenv/config'
+
+const turnstileSiteKey = process.env.TURNSTILE_SITE_KEY || ''
+const turnstileSecretKey = process.env.TURNSTILE_SECRET_KEY || ''
+const turnstileEnabled = Boolean(turnstileSiteKey && turnstileSecretKey)
+const turnstileMisconfigured = Boolean(turnstileSiteKey || turnstileSecretKey) && !turnstileEnabled
+
+const getQueryValue = (value) => Array.isArray(value) ? value[0] : value
+
+const validateTurnstile = async (token, remoteIp) => {
+	if (!turnstileEnabled) {
+		return { success: true, skipped: true }
+	}
+
+	const formData = new FormData()
+	formData.append('secret', turnstileSecretKey)
+	formData.append('response', token)
+	if (remoteIp) formData.append('remoteip', remoteIp)
+
+	const controller = new AbortController()
+	const timeoutId = setTimeout(() => controller.abort(), 10_000)
+
+	try {
+		const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+			method: 'POST',
+			body: formData,
+			signal: controller.signal,
+		})
+		return await response.json()
+	} catch (error) {
+		console.error('turnstile validation failed', error)
+		return { success: false, 'error-codes': ['internal-error'] }
+	} finally {
+		clearTimeout(timeoutId)
+	}
+}
 
 // set up applications
 const app = Express() // express app normal stuff
@@ -53,7 +89,7 @@ app.get('/:book/:chapter', (req, res) => {
 	const chapterEditStats = bible.getChapterEditCoverage(bookID, chapterID)
 	const totalEditStats = bible.getTotalEditCoverage()
 	const randUneditedChapter = bible.getRandomUneditedChapter()
-	res.render('bible', { verses, bookName, bookID, chapterID, prev, next, allBooks, numChapters, chapterEditStats, currentPath, appearanceFont, appearanceSize, randUneditedChapter })
+	res.render('bible', { verses, bookName, bookID, chapterID, prev, next, allBooks, numChapters, chapterEditStats, currentPath, appearanceFont, appearanceSize, randUneditedChapter, turnstileSiteKey })
 })
 
 app.get('/stats', (req, res) => {
@@ -68,10 +104,16 @@ app.get('/patterns', (req, res) => {
 	res.render('patterns', { currentPath })
 })
 
-app.post('/edit', (req, res) => {
+app.post('/edit', async (req, res) => {
+	if (turnstileMisconfigured) {
+		res.status(500).send('error: turnstile is only partially configured')
+		return
+	}
+
 	// validate the submitted verse text is not blank or whitespace-only
-	const newVerse = req.query.newVerse?.trim()
-	const verseID = req.query.verseID
+	const newVerse = getQueryValue(req.query.newVerse)?.trim()
+	const verseID = getQueryValue(req.query.verseID)
+	const turnstileToken = getQueryValue(req.query['cf-turnstile-response'])
 
 	if (!verseID) {
 		res.status(400).send("error: missing verseID")
@@ -83,7 +125,24 @@ app.post('/edit', (req, res) => {
 		return
 	}
 
-	bible.saveEdit(verseID, newVerse, req.ip)
+	if (turnstileEnabled && !turnstileToken) {
+		res.status(400).send('error: missing Turnstile token')
+		return
+	}
+
+	const remoteIp = req.headers['cf-connecting-ip'] || req.headers['x-forwarded-for'] || req.ip || undefined
+
+	if (turnstileEnabled) {
+		const validation = await validateTurnstile(turnstileToken, remoteIp)
+
+		if (!validation.success) {
+			console.log('turnstile rejected edit', validation['error-codes'])
+			res.status(403).send('error: Turnstile verification failed')
+			return
+		}
+	}
+
+	bible.saveEdit(verseID, newVerse, remoteIp)
 	res.send("success!")
 })
 

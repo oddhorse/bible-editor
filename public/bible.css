@@ -19,6 +19,32 @@ main [id^="verse-"] {
 	font-size: 18px;
 }
 
+#turnstile-guard {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	width: fit-content;
+	max-width: calc(100vw - 2rem);
+	margin: 1rem auto 0;
+	padding: 12px 14px;
+	text-align: center;
+}
+
+#turnstile-guard .turnstile-copy {
+	margin: 0;
+	font-family: 'Inter', sans-serif;
+	font-size: 13px;
+	font-weight: 500;
+	color: var(--color-gray-medium);
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+}
+
+#turnstile-widget {
+	min-height: 65px;
+}
+
 .chapter-title {
 	font-family: 'Crimson Text', serif;
 	text-align: center;
@@ -166,6 +192,10 @@ main [id^="verse-"] {
 	grid-area: 1 / 2 / 2 / 3;
 	padding: 6px;
 	gap: 6px;
+}
+
+#reader-nav * {
+	user-select: none;
 }
 
 #dropdowns {
