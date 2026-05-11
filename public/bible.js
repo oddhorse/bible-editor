@@ -57,13 +57,6 @@ const disableVerseEdit = async (verseEl) => {
 		return
 	}
 
-	if (turnstileSiteKey && !turnstileResponseToken) {
-		alert('Please complete the Turnstile challenge before saving.')
-		verseEl.innerText = origText
-		verseEl.dataset.submitState = ''
-		return
-	}
-
 	// submit to server
 	try {
 		const response = await submitEdit(verseEl.dataset.verseId, submittedText)
@@ -81,7 +74,6 @@ const disableVerseEdit = async (verseEl) => {
 		}
 	} finally {
 		verseEl.dataset.submitState = ''
-		clearTurnstileResponse()
 	}
 }
 

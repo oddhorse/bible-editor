@@ -8,7 +8,6 @@
 import Database from "better-sqlite3"
 import { getRandomIntBetween, roundToDec } from "./util.js"
 import { diffWords } from 'diff'
-import { regexp as profanity } from 'badwords-list'
 
 const db = new Database('./data/KJV.db')
 
@@ -310,12 +309,4 @@ export const computePercentEdited = (oldVerse, newVerse) => {
 	const perc = roundToDec(score / total * 100)
 	// console.log(`score: ${score}; total: ${total}; final percent: ${perc}`)
 	return perc
-}
-
-
-export const computePercentProfanity = (str) => {
-	const total = str.split(' ').length
-	console.log(str.match(profanity))
-	const matches = str.match(profanity).length
-	return roundToDec(matches / total * 100)
 }

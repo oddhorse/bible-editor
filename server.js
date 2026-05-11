@@ -8,7 +8,7 @@
 // -----[IMPORT LIBRARIES / MODULES]-----
 import Express from 'express'
 import * as bible from './db.js'
-import { getDatePretty } from './util.js'
+import { getDatePretty, computePercentProfanity } from './util.js'
 import cookieParser from 'cookie-parser'
 import 'dotenv/config'
 import turnstileMiddleware from './middleware/turnstile.js'
@@ -82,6 +82,12 @@ app.post('/edit', (req, res) => {
 
 	if (!newVerse || newVerse.length === 0) {
 		res.status(400).send("error: verse text cannot be blank")
+		return
+	}
+
+	const verseLength = newVerse.split(' ').length
+	if (verseLength > 3 && computePercentProfanity(newVerse) > 50) {
+		res.status(400).send("error: too much profanity :/")
 		return
 	}
 

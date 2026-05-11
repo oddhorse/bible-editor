@@ -15,7 +15,6 @@ npm start
 ## things to do
 
 - [ ] add cloudflare turnstile
-- [ ] word block list (density-based)
 - [ ] add user message pop up
 - [ ] experiment with percentage-based editing: if more than 50%??? of a verse is changed, it isn't let through
 - [ ] add john 1:1 message
