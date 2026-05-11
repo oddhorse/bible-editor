@@ -25,9 +25,19 @@ const clearTurnstileResponse = () => {
 	}
 }
 
+
+let _turnstileInitAttempts = 0
 const initTurnstile = () => {
 	turnstileSiteKey = document.body.dataset.turnstileSitekey || ''
-	if (!turnstileSiteKey || !window.turnstile || !document.getElementById('turnstile-widget')) {
+	const widgetContainer = document.getElementById('turnstile-widget')
+	if (!turnstileSiteKey || !widgetContainer) return
+
+	// If the library hasn't loaded yet, retry a few times with a small backoff
+	if (!window.turnstile) {
+		_turnstileInitAttempts += 1
+		if (_turnstileInitAttempts <= 8) {
+			setTimeout(initTurnstile, 250 * _turnstileInitAttempts)
+		}
 		return
 	}
 
