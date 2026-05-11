@@ -4,6 +4,9 @@
  * bible reader client side scripting
  */
 
+console.log('bible.js loaded')
+
+
 let turnstileWidgetId = null
 let turnstileResponseToken = ''
 let turnstileSiteKey = ''
@@ -182,7 +185,10 @@ const validateAppearanceFontOptions = (val) => {
 
 
 window.addEventListener('load', () => {
+	console.log('window.load fired', { bodySiteKey: document.body?.dataset?.turnstileSitekey })
 	initTurnstile()
+
+	console.log('after initTurnstile call (load handler)')
 
 	// set user-selected choices in appearance panel
 	validateAppearanceFontOptions(document.body.dataset.appearanceFont)
